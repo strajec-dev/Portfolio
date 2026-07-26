@@ -1,86 +1,71 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
 
-/**
- * Reusable scroll-triggered animation wrapper.
- * Wraps any section content with a fade-up entrance when it enters the viewport.
- *
- * @param {object} props
- * @param {React.ReactNode} props.children
- * @param {number} [props.delay=0] - stagger delay in seconds
- * @param {'fadeUp'|'fadeIn'|'slideLeft'|'slideRight'} [props.variant='fadeUp']
- */
+// Simple animate-on-scroll wrapper
+export function AnimateSection({ children, className = '', delay = 0, variant = 'fadeUp' }) {
+  const ref = useRef(null);
 
-const variants = {
-  fadeUp: {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0 },
-  },
-  fadeIn: {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  },
-  slideLeft: {
-    hidden: { opacity: 0, x: -40 },
-    visible: { opacity: 1, x: 0 },
-  },
-  slideRight: {
-    hidden: { opacity: 0, x: 40 },
-    visible: { opacity: 1, x: 0 },
-  },
-};
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
 
-export function AnimateSection({ children, delay = 0, variant = 'fadeUp', className = '' }) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => el.classList.add('visible'), delay * 1000);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [delay]);
+
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay }}
-      variants={variants[variant]}
-    >
+    <div ref={ref} className={`reveal ${className}`}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-/**
- * Container that staggers its direct children animations.
- */
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.05,
-    },
-  },
-};
-
-const childVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
-};
-
+// Stagger parent — triggers children with delay
 export function StaggerContainer({ children, className = '' }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.querySelectorAll('.stagger-item').forEach((child, i) => {
+            setTimeout(() => child.classList.add('visible'), i * 100);
+          });
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-60px' }}
-      variants={containerVariants}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
 export function StaggerItem({ children, className = '' }) {
   return (
-    <motion.div className={className} variants={childVariants}>
+    <div className={`stagger-item reveal ${className}`}>
       {children}
-    </motion.div>
+    </div>
   );
 }
+
+export default AnimateSection;

@@ -1,43 +1,64 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet, useLocation, Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import MagneticCursor from './CursorAndEffects';
 import { MessageSquare, X } from 'lucide-react';
 
 export default function Layout() {
-  const [showChatBadge, setShowChatBadge] = useState(true);
+  const [showBadge, setShowBadge] = useState(true);
+  const { hash, pathname } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+      }
+    } else if (pathname === '/') {
+      // Do not force scroll to top on other pages if clicking hash, but go to top on plain home page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0 });
+    }
+  }, [hash, pathname]);
+
 
   return (
-    <div className="relative min-h-screen bg-paper font-body text-ink overflow-x-hidden newsprint-dot-grid">
+    <div className="relative min-h-screen bg-snow font-sans text-ink overflow-x-hidden">
+      <MagneticCursor />
       <Header />
       <main className="w-full">
         <Outlet />
       </main>
       <Footer />
 
-      {/* Floating Messenger/Chat Button (Playful Geometric + Newsprint Accent) */}
-      <div className="fixed bottom-6 right-6 flex flex-col items-end gap-3 z-40 select-none">
-        {showChatBadge && (
-          <div className="bg-editorial-yellow border-2 border-ink text-ink font-mono text-[9px] font-black uppercase tracking-wider py-1.5 px-3 shadow-hard flex items-center gap-2 hover:-translate-y-1 transition-all">
-            <span>Weather Status: Active</span>
+      {/* ── Floating CTA bubble ── */}
+      <div className="fixed bottom-6 right-6 flex flex-col items-end gap-2.5 z-50 select-none">
+        {showBadge && (
+          <div className="flex items-center gap-2 bg-white text-navy/70 text-[0.65rem] font-mono font-medium tracking-wide px-3 py-2 rounded-full shadow-card border border-[#E5E7EB]">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Available now
             <button
-              onClick={() => setShowChatBadge(false)}
-              className="hover:text-editorial-red text-neutral-500 font-bold ml-1.5"
-              aria-label="Dismiss weather badge"
+              onClick={() => setShowBadge(false)}
+              className="ml-1 text-mid-grey hover:text-navy transition-colors"
+              aria-label="Dismiss"
             >
-              <X className="h-3 w-3" />
+              <X className="w-3 h-3" />
             </button>
           </div>
         )}
-
-        <a
-          href="mailto:magnet.solutionsph@gmail.com"
-          className="w-14 h-14 bg-editorial-red text-paper border-2 border-ink flex items-center justify-center transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard shadow-hard-sm active:translate-x-1 active:translate-y-1 active:shadow-none"
-          title="Email our team"
-          aria-label="Send us an email"
+        <Link
+          to="/contact"
+          data-cursor="let's talk"
+          className="w-13 h-13 w-[52px] h-[52px] bg-navy text-white rounded-full flex items-center justify-center hover:-translate-y-1 hover:bg-navy-light shadow-card transition-all duration-300"
+          aria-label="Start a project"
         >
-          <MessageSquare className="h-6 w-6 text-paper" strokeWidth={2.5} />
-        </a>
+          <MessageSquare className="w-5 h-5" strokeWidth={2} />
+        </Link>
       </div>
     </div>
   );

@@ -1,106 +1,330 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { ArrowRight, Sparkles, Send } from 'lucide-react';
+import {
+  ArrowRight, Zap, CheckCircle2, TrendingUp, Star,
+  Globe, Code2, MousePointer, Activity, BarChart3,
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { AnimateSection } from './AnimateSection';
-import magnetImg from '../MagNet.png';
+
+const CLIENTS = [
+  'FBS Group', "L'Étoile Sauvage", 'MagCare', 'O2 Mack Drive',
+  'La Union SHS', 'Inato Restobar', 'Caraga Logistics', 'Lim Dental',
+];
+
+/* ─── Floating card data ─── */
+const cardLeft = {
+  top: {
+    label: 'Project Status',
+    status: 'Live & Optimised',
+    score: 99,
+    items: ['React', 'Node.js', 'PostgreSQL'],
+  },
+  bottom: {
+    title: 'Scalable Growth',
+    body: 'Future-proof architecture built to grow with your business.',
+    badge: 'Engineering',
+  },
+};
+
+const cardRight = {
+  top: {
+    title: 'Client Satisfaction',
+    stars: 5,
+    quote: 'Delivered in 10 days — absolutely stunning.',
+    author: 'Marites C.',
+  },
+  bottom: {
+    metrics: [
+      { label: 'Projects',   val: '60+' },
+      { label: 'Retention',  val: '97%' },
+      { label: 'Page Speed', val: 'A+' },
+    ],
+  },
+};
 
 export default function Hero() {
+  const [isAuto, setIsAuto]     = useState(true);
+  const [mounted, setMounted]   = useState(false);
+  const sectionRef = useRef(null);
+
+  // Entrance animation trigger
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 80);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 90);
+            });
+          }
+        });
+      },
+      { threshold: 0.03 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const fadeIn = (delay = 0) => ({
+    opacity:   mounted ? 1 : 0,
+    transform: mounted ? 'translateY(0)' : 'translateY(24px)',
+    transition: `opacity 0.75s cubic-bezier(0.16,1,0.3,1) ${delay}ms,
+                 transform 0.75s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+  });
+
   return (
     <>
       <Helmet>
-        <title>MagNet Solutions | Web Developer Agusan del Norte Caraga Philippines</title>
-        <meta name="description" content="Web developer and web designer based in Agusan del Norte, Caraga, Philippines. We build websites, web apps, e-commerce stores, and booking systems for local businesses." />
-        <meta property="og:title" content="MagNet Solutions | Web Developer Agusan del Norte Caraga Philippines" />
-        <meta property="og:description" content="Web developer and web designer in Agusan del Norte, Caraga, Philippines. We build fast, affordable websites, web apps, and e-commerce stores for local businesses." />
+        <title>Strajec — Websites for Local Businesses in the Philippines</title>
+        <meta
+          name="description"
+          content="Strajec helps local businesses get online with beautiful, affordable websites. Trusted by small businesses in Caraga and across the Philippines."
+        />
       </Helmet>
-      <section id="home" className="max-w-screen-xl mx-auto px-4 py-12 space-y-5 md:py-20 border-b border-ink">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Side: Editorial Typography & Copy */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
-            <AnimateSection delay={0}>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-editorial-pink text-ink border border-ink text-xs font-mono uppercase tracking-widest mb-6 w-fit self-start btn-bounce hover:scale-105">
-                <Sparkles className="h-3 w-3 text-ink" />
-                Special Bulletin: Caraga Web Developers
-              </div>
-            </AnimateSection>
 
-            <AnimateSection delay={0.1}>
-              <h2 className="font-serif font-black text-4xl sm:text-4xl lg:text-5xl xl:text-6xl leading-[0.95] tracking-tighter text-ink mb-6">
-                We build websites <br className="hidden md:inline"/>
-                &amp; web apps for <br className="hidden md:inline"/>
-                <span className="underline decoration-editorial-red decoration-wavy underline-offset-8">businesses.</span>
-              </h2>
-            </AnimateSection>
+      <section
+        id="home"
+        ref={sectionRef}
+        className="relative min-h-[96vh] flex flex-col overflow-hidden bg-snow"
+      >
+        {/* ── Background layers ── */}
+        {/* Subtle dot grid */}
+        <div className="absolute inset-0 dot-grid opacity-25 pointer-events-none" />
 
-            <AnimateSection delay={0.2}>
-              <p className="font-body mt-3 text-base md:text-based leading-relaxed text-neutral-800 text-justify-columns max-w-2xl mb-8">
-                <span className="float-left text-7xl font-serif font-black text-editorial-red mr-3 mt-1 leading-[0.8] select-none">Y</span>
-                our customers are always online. Your business should be too. We are a specialized team based in Magallanes, Agusan del Norte, Caraga, Philippines — forging robust frontend layouts, high-scale database systems, and engaging interactive templates. Sharp, lightning-fast, and custom-tuned to grow your revenue.
-              </p>
-            </AnimateSection>
+        {/* Gold ambient glow — bottom right */}
+        <div
+          className="absolute bottom-0 right-0 w-[700px] h-[700px] pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at 80% 80%, rgba(244,207,49,0.13) 0%, transparent 65%)',
+          }}
+        />
+        {/* Navy ambient glow — top left */}
+        <div
+          className="absolute -top-32 -left-32 w-[500px] h-[500px] pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at 20% 20%, rgba(1,53,130,0.07) 0%, transparent 65%)',
+          }}
+        />
 
-            {/* Snappy Candy Buttons with sharp corners */}
-            <AnimateSection delay={0.3}>
-              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <Link
-                  to="/projects"
-                  className="px-6 py-4 bg-editorial-red text-paper font-sans font-bold text-xs uppercase tracking-widest border-2 border-ink flex items-center justify-center gap-2 group transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard select-none active:translate-x-1 active:translate-y-1 active:shadow-none"
-                  style={{ boxShadow: '4px 4px 0px 0px #111111' }}
-                >
-                  <span>View Our Work</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={2.5} />
-                </Link>
+        {/* ── Centre content ── */}
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-24 pb-8">
 
-                <Link
-                  to="/contact"
-                  className="px-6 py-4 bg-transparent text-ink font-sans font-bold text-xs uppercase tracking-widest border-2 border-ink flex items-center justify-center gap-2 transition-all duration-200 hover:bg-editorial-yellow hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard select-none active:translate-x-1 active:translate-y-1 active:shadow-none"
-                >
-                  <span>Hire Our Team</span>
-                  <Send className="h-4 w-4" strokeWidth={2.5} />
-                </Link>
-              </div>
-            </AnimateSection>
+          {/* Eyebrow badge */}
+          <div style={fadeIn(0)} className="mb-8">
+            <span className="tag">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold-dark animate-pulse inline-block" />
+              Helping local businesses grow online · Caraga, Philippines
+            </span>
           </div>
 
-          {/* Right Side: Playful Geometric Frame */}
-          <AnimateSection
-            delay={0.2}
-            variant="slideRight"
-            className="lg:col-span-5 relative w-full aspect-square md:aspect-[4/3] lg:aspect-square flex items-center justify-center border-2 border-ink bg-paper newsprint-dot-grid p-6 overflow-hidden"
-          >
-            {/* Halftone / Dot Grid Frame */}
-            <div className="absolute inset-0 halftone-pattern opacity-10 pointer-events-none" />
+          {/* ── Headline with inline toggle ── */}
+          <div style={fadeIn(120)} className="max-w-4xl text-center mb-7 px-2">
+            <h1 className="h1 text-navy">
+              Your business{' '}
+              {isAuto ? 'deserves a website' : 'needs customers'}
+              <br className="hidden sm:block" />{' '}
+              that {isAuto ? 'people will love' : 'find you online'}{' '}
+              <span className="inline-flex items-center align-middle mx-1">
+                <button
+                  onClick={() => setIsAuto(!isAuto)}
+                  data-cursor="switch"
+                  aria-label="Toggle hero mode"
+                  className="relative inline-flex w-[4.5rem] h-9 bg-navy hover:bg-navy-light rounded-full p-1 transition-all duration-300 border-2 border-gold/30 items-center shadow-md"
+                >
+                  <span className={`w-7 h-7 rounded-full flex items-center justify-center shadow-md transition-transform duration-300 ${
+                    isAuto ? 'bg-gold translate-x-7' : 'bg-white translate-x-0'
+                  }`}>
+                    {isAuto ? (
+                      <ArrowRight className="w-3.5 h-3.5 text-navy -rotate-45" />
+                    ) : (
+                      <Activity className="w-3.5 h-3.5 text-navy" />
+                    )}
+                  </span>
+                </button>
+              </span>{' '}
+              {isAuto ? '— we build it.' : '— we make it happen.'}
+            </h1>
+          </div>
 
-            {/* Strict grid borders in background */}
-            <div className="absolute inset-4 border border-dashed border-neutral-300 pointer-events-none" />
+          {/* Sub-copy */}
+          <div style={fadeIn(220)} className="max-w-2xl text-center mb-10 px-4">
+            <p className="body-lg text-[#4A5568]">
+              We build fast, professional websites for local businesses — shops, restaurants, clinics, and more. No tech skills needed. You run the business, we run the website.
+            </p>
+          </div>
 
-            {/* Playful Primitive Shapes: Dotted Circles and Geometric Blobs */}
-            <div className="absolute top-8 left-8 w-16 h-16 rounded-full bg-editorial-violet border border-ink animate-pulse z-0" />
-            <div className="absolute bottom-12 right-6 w-24 h-24 bg-editorial-yellow border border-ink transform rotate-12 z-0" />
-            <div className="absolute top-1/2 right-12 w-8 h-8 bg-editorial-pink border border-ink transform -rotate-45 z-0" />
+          {/* CTAs */}
+          <div style={fadeIn(320)} className="flex flex-col sm:flex-row items-center gap-3 mb-16">
+            <Link
+              to="/contact"
+              data-cursor="let's talk"
+              className="btn-primary group text-sm px-8 py-3.5"
+            >
+              Get a free quote
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+            <Link
+              to="/projects"
+              data-cursor="view"
+              className="btn-outline text-sm px-8 py-3.5"
+            >
+              See websites we made
+            </Link>
+          </div>
 
-            {/* Primary Grayscale image frame (vintage newsprint illustration look) */}
-            <div className="relative border-4 border-ink bg-paper p-3 shadow-hard-lg hover:rotate-1 hover:scale-105 transition-all duration-300 z-10 w-4/5 max-w-sm">
-              {/* Halftone dot texture */}
-              <div className="relative aspect-square border border-ink overflow-hidden bg-white group flex items-center justify-center p-4">
-                <div className="absolute inset-0 bg-[radial-gradient(#111111_1px,transparent_1px)] opacity-10 [background-size:12px_12px] z-10 pointer-events-none" />
+          {/* ── Floating cards — large screens only ── */}
+          <div className="hidden xl:block">
 
-                <img
-                  src={magnetImg}
-                  alt="MagNet Solutions"
-                  className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
-                />
+            {/* ── LEFT TOP: Website speed card ── */}
+            <div
+              style={{ ...fadeIn(500), animationDelay: '500ms' }}
+              className="absolute top-[18%] left-[4%] w-56 bg-white rounded-2xl border border-[#E5E7EB] shadow-card-hover p-4 animate-float"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <span className="section-index">Website Speed</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               </div>
-
-              <div className="mt-3 font-mono text-[10px] tracking-wider text-center text-neutral-600 uppercase">
-                Fig 1.1 — MagNet.png
+              {/* Score ring */}
+              <div className="flex items-center gap-3 mb-3">
+                <div className="relative w-12 h-12 flex-shrink-0">
+                  <svg className="w-12 h-12 -rotate-90" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="16" fill="none" stroke="#E5E7EB" strokeWidth="4" />
+                    <circle
+                      cx="20" cy="20" r="16" fill="none"
+                      stroke="#F4CF31" strokeWidth="4"
+                      strokeLinecap="round"
+                      strokeDasharray={`${(99 / 100) * 100} 100`}
+                      pathLength="100"
+                    />
+                  </svg>
+                  <span className="absolute inset-0 flex items-center justify-center font-display font-black text-[0.7rem] text-navy">99</span>
+                </div>
+                <div>
+                  <p className="font-display font-bold text-sm text-navy">Loads Fast</p>
+                  <p className="section-index mt-0.5">Customers won't wait</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {['Mobile-Ready', 'SEO-Friendly', 'Secure'].map(t => (
+                  <span key={t} className="px-2 py-0.5 text-[9px] font-mono text-mid-grey bg-off-white border border-[#E5E7EB] rounded-full">{t}</span>
+                ))}
               </div>
             </div>
-          </AnimateSection>
+
+            {/* ── LEFT BOTTOM: Growth card ── */}
+            <div
+              style={{ ...fadeIn(650), animation: 'float 9s ease-in-out 1.5s infinite' }}
+              className="absolute bottom-[18%] left-[4%] w-52 bg-white rounded-2xl border border-[#E5E7EB] shadow-card p-4"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-7 h-7 rounded-lg bg-gold/15 flex items-center justify-center">
+                  <TrendingUp className="w-3.5 h-3.5 text-gold-dark" />
+                </div>
+                <span className="font-display font-bold text-xs text-navy">More Customers</span>
+              </div>
+              {/* Mini bar chart */}
+              <div className="flex items-end gap-1 h-10 mb-2">
+                {[40, 60, 45, 80, 65, 90, 100].map((h, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 rounded-sm transition-all duration-500"
+                    style={{
+                      height: `${h}%`,
+                      background: i === 6 ? '#013582' : i === 5 ? '#0B4DB5' : '#E5E7EB',
+                    }}
+                  />
+                ))}
+              </div>
+              <p className="text-[10px] text-mid-grey">Your website works 24/7 to bring in new clients.</p>
+            </div>
+
+            {/* ── RIGHT TOP: Review card ── */}
+            <div
+              style={{ ...fadeIn(600), animation: 'float 8s ease-in-out 0.8s infinite' }}
+              className="absolute top-[16%] right-[4%] w-60 bg-white rounded-2xl border border-[#E5E7EB] shadow-card-hover p-4"
+            >
+              <div className="flex gap-0.5 mb-2">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3 h-3 fill-gold text-gold" />
+                ))}
+              </div>
+              <blockquote className="text-[0.72rem] text-[#3D4451] leading-relaxed mb-3 italic">
+                "Ready in 10 days — our customers love it. We get more inquiries now than ever before."
+              </blockquote>
+              <div className="flex items-center gap-2 pt-2.5 border-t border-[#E5E7EB]">
+                <div className="w-7 h-7 rounded-full bg-navy flex items-center justify-center flex-shrink-0">
+                  <span className="text-[0.6rem] font-black text-white">MC</span>
+                </div>
+                <div>
+                  <p className="text-[0.7rem] font-bold text-navy leading-none">Marites Calo</p>
+                  <p className="section-index mt-0.5">Butuan Coffee Grind</p>
+                </div>
+              </div>
+            </div>
+
+            {/* ── RIGHT BOTTOM: Stats card ── */}
+            <div
+              style={{ ...fadeIn(750), animation: 'float 10s ease-in-out 2s infinite' }}
+              className="absolute bottom-[18%] right-[4%] w-52 bg-navy rounded-2xl shadow-card-hover p-4"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <BarChart3 className="w-4 h-4 text-gold" />
+                <span className="font-mono text-[0.6rem] text-white/50 tracking-widest uppercase">Trusted by businesses</span>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { label: 'Websites built',   val: '60+' },
+                  { label: 'Happy clients',     val: '97%' },
+                  { label: 'Always on time',    val: '✓' },
+                ].map(m => (
+                  <div key={m.label} className="flex items-center justify-between">
+                    <span className="text-white/50 text-[0.7rem]">{m.label}</span>
+                    <span className="font-display font-black text-sm text-white">{m.val}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-3 pt-3 border-t border-white/10 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3 h-3 text-gold" />
+                <span className="text-[0.6rem] text-gold font-mono">No hidden fees, ever</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* ── Mobile/tablet stat pills ── */}
+          <div style={fadeIn(420)} className="xl:hidden flex flex-wrap justify-center gap-3 mb-4">
+            {[
+              { val: '60+', label: 'Websites built' },
+              { val: '97%', label: 'Happy clients' },
+              { val: '10d', label: 'Avg. delivery' },
+              { val: '₱0',  label: 'Hidden fees' },
+            ].map(s => (
+              <div key={s.label} className="flex items-center gap-2 bg-white border border-[#E5E7EB] rounded-full px-4 py-2 shadow-subtle">
+                <span className="font-display font-black text-sm text-navy">{s.val}</span>
+                <span className="section-index">{s.label}</span>
+              </div>
+            ))}
+          </div>
+
+        </div>
+
+        {/* ── Client marquee ── */}
+        <div className="relative z-10 w-full border-t border-[#E5E7EB] bg-off-white overflow-hidden py-4">
+          <div className="flex gap-14 items-center animate-ticker w-max">
+            {[...CLIENTS, ...CLIENTS].map((name, i) => (
+              <span key={i} className="font-mono text-label text-mid-grey whitespace-nowrap tracking-wide flex items-center gap-3">
+                <span className="w-1 h-1 rounded-full bg-gold-dark/40 inline-block" />
+                {name}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
     </>
   );
 }
-

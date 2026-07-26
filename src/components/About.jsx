@@ -1,108 +1,131 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { ShieldCheck, Zap, HeartHandshake, Compass } from 'lucide-react';
-import { AnimateSection, StaggerContainer, StaggerItem } from './AnimateSection';
+import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const values = [
+  {
+    num: '01',
+    title: 'Fair Pricing',
+    body: 'We don\'t have office rent or corporate overhead to pay, so we keep our prices friendly and affordable for local shops.',
+  },
+  {
+    num: '02',
+    title: 'Hungry to Learn',
+    body: 'Every website we build is a chance to sharpen our skills, write clean code, and prove what fresh IT graduates can deliver.',
+  },
+  {
+    num: '03',
+    title: 'Zero Catch',
+    body: 'You own the website, the domain, and the hosting. We set it up under your name so you keep full control forever.',
+  },
+  {
+    num: '04',
+    title: 'Local & Friendly',
+    body: 'We live in Caraga. No complex tech jargon — just a group of friends working hard to build something you\'ll be proud to show.',
+  },
+];
+
+const stats = [
+  { value: '97%',  label: 'Client retention' },
+  { value: '100%', label: 'On-time delivery' },
+  { value: 'A+',   label: 'Avg. PageSpeed score' },
+  { value: '15+',  label: 'Years combined exp.' },
+];
+
+function useReveal(ref) {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 80);
+            });
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref]);
+}
 
 export default function About() {
-  const values = [
-    {
-      title: 'Affordable Pricing',
-      description: 'We tailor rates to local business scales in the Philippines, starting at just ₱8,000.',
-      icon: HeartHandshake,
-      color: 'bg-editorial-pink',
-      shadow: 'shadow-hard-violet'
-    },
-    {
-      title: 'Absolute Reliability',
-      description: 'Transparent communication, explicit code handovers, and reliable post-launch maintenance.',
-      icon: ShieldCheck,
-      color: 'bg-editorial-green',
-      shadow: 'shadow-hard-pink'
-    },
-    {
-      title: 'Modern Architecture',
-      description: 'No bloated drag-and-drop templates. We construct sites using React, Laravel, and responsive CSS.',
-      icon: Compass,
-      color: 'bg-editorial-violet',
-      shadow: 'shadow-hard-yellow'
-    },
-    {
-      title: 'High Velocity',
-      description: 'Quick client onboarding, fast page speeds, and swift turnaround times (1-3 weeks).',
-      icon: Zap,
-      color: 'bg-editorial-yellow',
-      shadow: 'shadow-hard'
-    }
-  ];
+  const ref = useRef(null);
+  useReveal(ref);
 
   return (
     <>
       <Helmet>
-        <title>About MagNet Solutions | Web Developer Philippines</title>
-        <meta name="description" content="Learn about MagNet Solutions, a web developer and web designer agency based in Agusan del Norte, Caraga, Philippines. Reliable, affordable, and modern." />
-        <meta property="og:title" content="About MagNet Solutions | Web Developer Philippines" />
-        <meta property="og:description" content="Web developer and web designer agency based in Agusan del Norte, Caraga, Philippines. Reliable, affordable, and modern." />
+        <title>About Us | Strajec — Web Developers in Caraga</title>
+        <meta name="description" content="Meet Strajec — a group of fresh BSIT graduates building beautiful websites for local businesses to gain experience." />
       </Helmet>
-      <section id="about" className="max-w-screen-xl mx-auto px-4 py-16 border-b border-ink">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Left Column: The Editorial Story */}
-          <AnimateSection className="lg:col-span-6 flex flex-col justify-between" variant="slideLeft">
+
+      <section id="about" ref={ref} className="section-block bg-snow">
+        <div className="container-wide">
+
+          {/* ── Header ── */}
+          <div className="reveal grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 items-end mb-20 pb-8 border-b border-[#E5E7EB]">
             <div>
-              <span className="font-mono text-xs tracking-widest uppercase font-bold text-neutral-500 block mb-2">
-                [ SECTION 02: THE LEAD STORY ]
-              </span>
-              <h3 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight text-ink mb-6">
-                A Digital Guild Solving Complex Online Operations.
-              </h3>
-              
-              <div className="font-body text-neutral-800 text-sm md:text-base leading-relaxed text-justify-columns space-y-4">
-                <p>
-                  <span className="float-left text-6xl font-serif font-black text-editorial-violet mr-3 mt-1 leading-[0.8] select-none">B</span>
-                  orn and operating out of Magallanes, Agusan del Norte, Caraga, Philippines, our agency has one guiding focus: to make corporate-grade web applications and high-converting marketing sites accessible to business owners without requiring high-agency overheads. We believe that your website is your digital storefront, operating 24 hours a day, 365 days a year. It should represent you perfectly.
-                </p>
-                <p>
-                  As a collective of four engineering and marketing specialists, we combine standard database architecture with robust user interfaces. We work closely with our clients during consultations, ensuring that everything from color palettes to backend code structures matches their business goals and user personas.
-                </p>
-              </div>
+              <p className="section-label mb-4">About Strajec</p>
+              <h2 className="h2 text-navy">
+                No fancy studio.<br />
+                Just code, coffee, and a goal.
+              </h2>
+            </div>
+            <Link to="/team" data-cursor="team" className="btn-outline self-end whitespace-nowrap">
+              Meet the friends <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* ── Story + Stats ── */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24 reveal reveal-delay-1">
+
+            {/* Story */}
+            <div className="space-y-6">
+              <p className="text-[1.125rem] text-[#1E2A3B] leading-[1.8] font-light">
+                <strong className="font-bold text-navy">Strajec</strong> isn’t a corporate agency. We are simply a group of close friends and fresh <strong className="font-bold text-navy">BSIT (Information Technology)</strong> graduates based in Caraga, Philippines. 
+              </p>
+              <p className="body-lg">
+                With no fancy office or studio space, we gather around a table in one of our houses, boot up our laptops, and build websites together. Our goal is to gain hands-on experience, learn new technologies every day, and help local businesses get online without the heavy agency tag.
+              </p>
+              <p className="body-lg">
+                Every website we take on is our chance to write clean code, study best design practices, and prove our capabilities. By working with us, you get a modern, affordable website, and you help a team of local graduates kickstart their careers in tech.
+              </p>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-ink border-dashed flex items-center justify-between font-mono text-xs uppercase text-neutral-600">
-              <div>WRITTEN BY: EDITORIAL BOARD</div>
-              <div>KEYWORDS: REVENUE, TECH, LOCAL</div>
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-px bg-[#E5E7EB] border border-[#E5E7EB] rounded-2xl overflow-hidden">
+              {stats.map((s) => (
+                <div key={s.label} className="bg-snow p-8 flex flex-col justify-between">
+                  <span className="font-display font-black text-4xl text-navy mb-2">{s.value}</span>
+                  <span className="section-index">{s.label}</span>
+                </div>
+              ))}
             </div>
-          </AnimateSection>
+          </div>
 
-          {/* Right Column: Values Grid */}
-          <StaggerContainer className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {values.map((val) => {
-              const IconComponent = val.icon;
-              return (
-              <StaggerItem key={val.title}>
-                <div
-                  className={`border-2 border-ink p-6 bg-paper flex flex-col justify-between transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard`}
-                >
-                  <div>
-                    <div className={`w-12 h-12 border border-ink ${val.color} flex items-center justify-center mb-4`}>
-                      <IconComponent className="h-6 w-6 text-ink" strokeWidth={2} />
+          {/* ── Values ── */}
+          <div className="reveal reveal-delay-2">
+            <p className="section-label mb-10">Our principles</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              {values.map((v, i) => (
+                <div key={v.num} className={`reveal reveal-delay-${i + 1}`}>
+                  <div className="flex items-start gap-5">
+                    <span className="section-index pt-0.5 flex-shrink-0">{v.num}</span>
+                    <div>
+                      <div className="gold-rule mb-3" />
+                      <h3 className="font-display font-bold text-lg text-navy mb-2">{v.title}</h3>
+                      <p className="body-sm">{v.body}</p>
                     </div>
-                    
-                    <h4 className="font-sans font-bold text-lg text-ink mb-2 uppercase tracking-wide">
-                      {val.title}
-                    </h4>
-                    
-                    <p className="font-body text-xs md:text-sm text-neutral-700 leading-relaxed">
-                      {val.description}
-                    </p>
-                  </div>
-                  
-                  <div className="mt-6 font-mono text-[10px] tracking-widest text-neutral-400 uppercase">
-                    Value Code: 0{values.indexOf(val) + 1} // CARAGA
                   </div>
                 </div>
-              </StaggerItem>
-              );
-            })}
-          </StaggerContainer>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
     </>

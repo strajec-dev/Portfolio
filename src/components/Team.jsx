@@ -1,167 +1,154 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import christianImg from '../image/christian.jpg';
-import juneImg from '../image/june.jpg';
-import florenceImg from '../image/florence.jpg';
-import regilImg from '../image/regil.jpg';
-import { AnimateSection, StaggerContainer, StaggerItem } from './AnimateSection';
+import juneImg      from '../image/june.jpg';
+import florenceImg  from '../image/florence.jpg';
+import regilImg     from '../image/regil.jpg';
 
 const members = [
   {
-    name: 'Christian John Teofilo',
-    role: 'DevOps / Backend Developer',
-    bio: 'Builds scalable backend services, manages cloud infrastructure, and ensures seamless deployments across all production environments.',
-    avatarBg: 'bg-editorial-red',
-    photo: christianImg,
-    github: 'https://github.com',
-    linkedin: 'https://linkedin.com',
-    email: 'mailto:christian@magnetsolutions.dev',
-  },
-  {
-    name: 'June Dominic Laurente',
-    role: 'Frontend Developer',
-    bio: 'Designs component systems, manages animations, and implements dynamic mobile-first interactions that captivate users.',
-    avatarBg: 'bg-editorial-pink',
-    photo: juneImg,
-    github: 'https://github.com',
-    linkedin: 'https://linkedin.com',
-    email: 'mailto:june@magnetsolutions.dev',
-  },
-  {
     name: 'Florence Cris Solayao',
-    role: 'Lead / Backend Developer',
-    bio: 'Leads the development team, architects backend systems, designs APIs, manages databases, and ensures code quality across all projects.',
-    avatarBg: 'bg-editorial-violet',
+    bio: 'Focuses on backend systems, database architecture, and building secure server APIs.',
     photo: florenceImg,
-    github: 'https://github.com',
+    github:   'https://github.com',
     linkedin: 'https://linkedin.com',
-    email: 'mailto:florence@magnetsolutions.dev',
+    email:    'mailto:florence@strajec.dev',
   },
   {
-    name: 'John Rey Siman',
-    role: 'UI/UX Designer',
-    bio: 'Crafts intuitive user experiences and polished interfaces that align business goals with user delight.',
-    avatarBg: 'bg-editorial-yellow',
-    photo: null,
-    github: 'https://github.com',
+    name: 'Christian John Teofilo',
+    bio: 'Handles server hosting setup, database deployments, and maintaining code versioning repositories.',
+    photo: christianImg,
+    github:   'https://github.com',
     linkedin: 'https://linkedin.com',
-    email: 'mailto:johnrey@magnetsolutions.dev',
+    email:    'mailto:christian@strajec.dev',
   },
   {
     name: 'Regil Tagalogon',
-    role: 'Full Stack Developer',
-    bio: 'Develops end-to-end web solutions, bridging frontend interfaces with robust backend systems to deliver seamless digital experiences.',
-    avatarBg: 'bg-editorial-blue',
+    bio: 'Enjoys coding dynamic page layouts and bridging backend APIs with user-friendly web features.',
     photo: regilImg,
-    github: 'https://github.com',
+    github:   'https://github.com',
     linkedin: 'https://linkedin.com',
-    email: 'mailto:regil@magnetsolutions.dev',
+    email:    'mailto:regil@strajec.dev',
+  },
+  {
+    name: 'June Dominic Laurente',
+    bio: 'Works on interactive layout elements, custom page animations, and mobile-friendly responsiveness.',
+    photo: juneImg,
+    github:   'https://github.com',
+    linkedin: 'https://linkedin.com',
+    email:    'mailto:june@strajec.dev',
+  },
+  {
+    name: 'John Rey Siman',
+    bio: 'Designs beautiful visual layouts, creates mockups, and ensures the website matches what clients want.',
+    photo: null,
+    github:   'https://github.com',
+    linkedin: 'https://linkedin.com',
+    email:    'mailto:johnrey@strajec.dev',
   },
 ];
 
+function useReveal(ref) {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 80);
+            });
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref]);
+}
+
 export default function Team() {
+  const ref = useRef(null);
+  useReveal(ref);
+
   return (
     <>
       <Helmet>
-        <title>Our Team | MagNet Solutions - Web Developer Caraga</title>
-        <meta name="description" content="Meet the four-person web developer and web designer team at MagNet Solutions in Agusan del Norte, Caraga, Philippines. Full-stack, frontend, backend, and UI/UX specialists." />
-        <meta property="og:title" content="Our Team | MagNet Solutions - Web Developer Caraga" />
-        <meta property="og:description" content="Meet the four-person web developer and web designer team at MagNet Solutions in Agusan del Norte, Caraga, Philippines." />
+        <title>Our Team | Strajec — Web Developers in Caraga</title>
+        <meta name="description" content="Meet the Strajec team — five friends and BSIT graduates building websites in Caraga, Philippines." />
       </Helmet>
-      <section id="team" className="max-w-screen-xl mx-auto px-4 py-16 border-b border-ink">
-        <AnimateSection>
-          <div className="mb-12">
-            <span className="font-mono text-xs tracking-widest uppercase font-bold text-neutral-500 block mb-2">
-              [ SECTION 04: AGENCY STAFF DIRECTORY ]
-            </span>
-            <h3 className="font-serif font-black text-4xl md:text-5xl uppercase tracking-tight text-ink">
-              MEET THE DEVELOPERS
-            </h3>
-            <p className="font-body text-neutral-600 mt-2 max-w-xl">
-              Five distinct minds operating synchronously in Caraga to deliver high-octane digital experiences.
-            </p>
-          </div>
-        </AnimateSection>
 
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-          {members.map((member) => (
-            <StaggerItem key={member.name}>
-            <div
-              className="border-2 border-ink bg-paper p-6 relative flex flex-col justify-between transition-all duration-300 hover:-translate-x-1.5 hover:-translate-y-1.5 hover:shadow-hard group"
-            >
-              {/* Photo / Avatar container */}
-              <div className="border border-ink aspect-square w-full flex items-center justify-center relative overflow-hidden mb-6 bg-neutral-200">
-                {/* Halftone mesh grid overlay */}
-                <div className="absolute inset-0 bg-[radial-gradient(#111111_1px,transparent_1px)] opacity-10 [background-size:8px_8px] z-10 pointer-events-none" />
+      <section id="team" ref={ref} className="section-block bg-off-white">
+        <div className="container-wide">
 
-                {member.photo ? (
-                  <img
-                    src={member.photo}
-                    alt={member.name}
-                    className="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 z-0"
-                  />
-                ) : (
-                  <>
-                    {/* Rotating background shape */}
-                    <div className={`absolute w-36 h-36 border border-ink ${member.avatarBg} opacity-20 transform -rotate-12 group-hover:rotate-45 transition-transform duration-500`} />
-                    {/* Initials monogram */}
-                    <div className="z-20 flex flex-col items-center gap-2">
-                      <div className={`w-20 h-20 rounded-full border-2 border-ink ${member.avatarBg} flex items-center justify-center`}>
-                        <span className="font-serif font-black text-2xl text-ink select-none">
-                          {member.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                        </span>
-                      </div>
-                      <span className="font-mono text-[9px] tracking-widest text-neutral-400 uppercase">No Photo</span>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <div>
-                <span className="font-mono text-[10px] tracking-widest text-editorial-red font-bold uppercase block mb-1">
-                  {member.role}
-                </span>
-                <h4 className="font-sans font-black text-lg text-ink uppercase tracking-wide mb-3">
-                  {member.name}
-                </h4>
-                <p className="font-body text-xs md:text-sm text-neutral-700 leading-relaxed mb-6">
-                  {member.bio}
-                </p>
-              </div>
-
-              {/* Social Anchor Buttons */}
-              <div className="pt-4 border-t border-dashed border-neutral-200 flex items-center gap-3">
-                <a
-                  href={member.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-8 h-8 border border-ink flex items-center justify-center hover:bg-ink hover:text-paper transition-all select-none"
-                  aria-label={`${member.name} GitHub`}
-                >
-                  <Github className="h-4 w-4" />
-                </a>
-                <a
-                  href={member.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-8 h-8 border border-ink flex items-center justify-center hover:bg-ink hover:text-paper transition-all select-none"
-                  aria-label={`${member.name} LinkedIn`}
-                >
-                  <Linkedin className="h-4 w-4" />
-                </a>
-                <a
-                  href={member.email}
-                  className="w-8 h-8 border border-ink flex items-center justify-center hover:bg-ink hover:text-paper transition-all select-none"
-                  aria-label={`Email ${member.name}`}
-                >
-                  <Mail className="h-4 w-4" />
-                </a>
-              </div>
+          {/* ── Header ── */}
+          <div className="reveal mb-16 pb-8 border-b border-[#E5E7EB]">
+            <p className="section-label mb-4">The team</p>
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+              <h2 className="h2 text-navy">Meet the friends</h2>
+              <p className="body-sm max-w-sm">
+                A group of five friends and BSIT graduates working together to help local businesses.
+              </p>
             </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+          </div>
+
+          {/* ── Team grid ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {members.map((m, i) => {
+              const initials = m.name.split(' ').map(n => n[0]).join('').slice(0, 2);
+              return (
+                <div key={m.name} className={`reveal reveal-delay-${Math.min(i + 1, 4)} card group flex flex-col overflow-hidden`}>
+
+                  {/* Photo */}
+                  <div className="relative aspect-[3/4] bg-off-white overflow-hidden">
+                    {m.photo ? (
+                      <img
+                        src={m.photo}
+                        alt={m.name}
+                        className="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-[1.04] transition-all duration-500 ease-out"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="font-display font-black text-5xl text-navy/15">{initials}</span>
+                      </div>
+                    )}
+                    {/* Gold accent bar on hover */}
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                  </div>
+
+                  {/* Info */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-display font-bold text-sm text-navy leading-tight mb-3">{m.name}</h3>
+                    <p className="body-sm text-[0.72rem] leading-relaxed mb-4 flex-1 line-clamp-3">{m.bio}</p>
+
+                    {/* Social */}
+                    <div className="flex items-center gap-2 pt-3 border-t border-[#E5E7EB]">
+                      {[
+                        { href: m.github,   Icon: Github,   label: 'GitHub' },
+                        { href: m.linkedin, Icon: Linkedin, label: 'LinkedIn' },
+                        { href: m.email,    Icon: Mail,     label: 'Email' },
+                      ].map(({ href, Icon, label }) => (
+                        <a
+                          key={label}
+                          href={href}
+                          target={label !== 'Email' ? '_blank' : undefined}
+                          rel="noreferrer"
+                          data-cursor={label.toLowerCase()}
+                          className="w-7 h-7 rounded-md border border-[#E5E7EB] flex items-center justify-center text-mid-grey hover:border-navy hover:text-navy hover:bg-navy/5 transition-all duration-200"
+                          aria-label={`${m.name} ${label}`}
+                        >
+                          <Icon className="w-3.5 h-3.5" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
       </section>
     </>
   );

@@ -1,120 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────
+   BASE
+───────────────────────────────────────────────────────── */
 @layer base {
-  body {
-    background-color: #F9F9F7;
-    color: #111111;
-    font-family: 'Lora', Georgia, serif;
+  :root {
+    --navy:  #013582;
+    --gold:  #F4CF31;
+    --snow:  #FCFCFC;
   }
 
-  /* Universal sharp corners constraint */
-  * {
-    border-radius: 0px !important;
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
   }
+
+  body {
+    background-color: #FCFCFC;
+    color: #0D1117;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none; /* replaced by custom cursor */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* restore cursor on mobile/touch */
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* Restore pointer cursor for all interactive elements */
+  a, button, [role="button"], input[type="submit"], label[for] {
+    cursor: none;
+  }
+  @media (pointer: coarse) {
+    a, button, [role="button"] { cursor: pointer; }
+  }
+
+  ::selection {
+    background-color: #F4CF31;
+    color: #013582;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #F7F7F5; }
+  ::-webkit-scrollbar-thumb { background: #013582; border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: #0B4DB5; }
 }
 
+/* ─────────────────────────────────────────────────────────
+   COMPONENTS
+───────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Section wrapper */
+  .section-block {
+    @apply py-24 lg:py-36;
+  }
+
+  /* Container */
+  .container-wide {
+    @apply max-w-screen-xl mx-auto px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Section label (monospace eyebrow) */
+  .section-label {
+    @apply font-mono text-label font-medium tracking-[0.14em] uppercase text-gold-dark;
+  }
+
+  /* Overline index — e.g. "01" */
+  .section-index {
+    @apply font-mono text-[0.65rem] font-medium tracking-[0.16em] text-mid-grey uppercase;
+  }
+
+  /* Heading levels */
+  .h1 {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    font-weight: 900;
+    font-family: 'Outfit', sans-serif;
+    color: #013582;
+  }
+
+  .h2 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    color: #013582;
+  }
+
+  .h3 {
+    @apply font-display font-bold text-xl text-navy leading-snug;
+  }
+
+  /* Body copy */
+  .body-lg { @apply text-base md:text-lg text-[#3D4451] leading-[1.75]; }
+  .body-sm { @apply text-sm text-[#6B7280] leading-relaxed; }
+
+  /* Card — clean, no glassmorphism */
+  .card {
+    @apply bg-white rounded-2xl border border-[#E5E7EB] shadow-card
+           transition-all duration-300 ease-out;
+  }
+  .card:hover {
+    @apply shadow-card-hover -translate-y-1 border-navy/15;
+  }
+
+  /* Gold tag */
+  .tag {
+    @apply inline-flex items-center gap-1.5 font-mono text-label font-medium
+           tracking-[0.12em] uppercase text-navy-dark bg-gold/15
+           border border-gold/40 rounded-full px-3.5 py-1;
+  }
+
+  /* Button primary */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-navy text-white font-bold text-sm tracking-wide
+           rounded-full px-7 py-3.5
+           hover:bg-navy-light hover:-translate-y-px
+           transition-all duration-200 ease-out;
+  }
+
+  /* Button outlined */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2
+           bg-transparent text-navy font-bold text-sm tracking-wide
+           rounded-full px-7 py-3.5 border border-navy/25
+           hover:border-navy hover:bg-navy/5 hover:-translate-y-px
+           transition-all duration-200 ease-out;
+  }
+
+  /* Horizontal divider */
+  .divider {
+    @apply w-full h-px bg-[#E5E7EB];
+  }
+
+  /* Gold accent line */
+  .gold-rule {
+    @apply h-[3px] w-10 bg-gold rounded-full;
+  }
+
+}
+
+/* ─────────────────────────────────────────────────────────
+   UTILITIES
+───────────────────────────────────────────────────────── */
 @layer utilities {
-  /* Newspaper-style scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+
+  /* Reveal animation trigger */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+                transform 0.65s cubic-bezier(0.16,1,0.3,1);
   }
-  ::-webkit-scrollbar-track {
-    background: #F9F9F7;
-    border-left: 1px solid #111111;
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
-  ::-webkit-scrollbar-thumb {
-    background: #111111;
-    border: 2px solid #F9F9F7;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #CC0000;
+  .reveal-delay-1 { transition-delay: 0.08s; }
+  .reveal-delay-2 { transition-delay: 0.16s; }
+  .reveal-delay-3 { transition-delay: 0.24s; }
+  .reveal-delay-4 { transition-delay: 0.32s; }
+
+  /* Text gradient */
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #D4AF20 0%, #F4CF31 60%, #F8E571 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  /* Paper Dot Grid Background (Newsprint style) */
-  .newsprint-dot-grid {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath fill='%23111111' fill-opacity='0.05' d='M1 1h1v1H1V1zm4 4h1v1H5V5z'%3E%3C/path%3E%3C/svg%3E");
+  /* Subtle grid background — use very sparingly */
+  .dot-grid {
+    background-image: radial-gradient(circle, rgba(1,53,130,0.08) 1px, transparent 1px);
+    background-size: 28px 28px;
   }
 
-  /* Vintage Halftone print effect for image containers */
-  .halftone-pattern {
-    background-image: radial-gradient(#111111 20%, transparent 20%);
-    background-size: 8px 8px;
-    opacity: 0.15;
+  /* Marquee ticker */
+  .animate-ticker {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: ticker 36s linear infinite;
   }
+  .animate-ticker:hover { animation-play-state: paused; }
 
-  /* Graph-paper line grid overlay */
-  .newsprint-grid-lines {
+  /* Nav underline */
+  .nav-link {
     position: relative;
+    transition: color 0.2s ease;
   }
-  .newsprint-grid-lines::before {
+  .nav-link::after {
     content: '';
     position: absolute;
-    inset: 0;
-    background-image: 
-      linear-gradient(0deg, transparent 97%, rgba(17, 17, 17, 0.03) 98%, rgba(17, 17, 17, 0.03) 100%),
-      linear-gradient(90deg, transparent 97%, rgba(17, 17, 17, 0.03) 98%, rgba(17, 17, 17, 0.03) 100%);
-    background-size: 20px 20px;
-    pointer-events: none;
-    z-index: 0;
+    bottom: -3px; left: 0;
+    width: 0; height: 2px;
+    background: #F4CF31;
+    border-radius: 2px;
+    transition: width 0.25s ease;
   }
-
-  /* Editorial highlight marker */
-  .highlight-yellow {
-    background: linear-gradient(180deg, transparent 60%, #FBBF24 60%);
-  }
-  
-  .highlight-pink {
-    background: linear-gradient(180deg, transparent 60%, #F472B6 60%);
-  }
-
-  /* Custom text justification */
-  .text-justify-columns {
-    text-align: justify;
-    text-justify: inter-word;
-  }
-
-  /* Snappy mechanical hover animation classes */
-  .btn-bounce {
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  
-  .card-wiggle:hover {
-    animation: wiggle 0.4s ease-in-out infinite alternate;
-  }
+  .nav-link:hover::after,
+  .nav-link.active::after { width: 100%; }
 }
 
-@keyframes wiggle {
-  0% { transform: rotate(0.5deg); }
-  100% { transform: rotate(-0.5deg); }
+/* ─────────────────────────────────────────────────────────
+   CURSOR PARTICLES
+───────────────────────────────────────────────────────── */
+@keyframes particle-out {
+  0%   { transform: translate(-50%, -50%) translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(var(--dx),var(--dy)) scale(0); opacity: 0; }
 }
 
-/* Base structural rules for editorial grid lines */
-.editorial-grid {
-  display: grid;
-  background-color: #111111; /* Grid border color */
-  gap: 1px; /* Collapsed borders logic: adjacent elements share a single line */
-  border: 1px solid #111111;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
 }
 
-.editorial-grid-item {
-  background-color: #F9F9F7;
+
+.cursor-particle {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 9999;
+  animation: particle-out 0.75s cubic-bezier(0.1,0.8,0.3,1) forwards;
 }
 
-/* Custom keyframes for infinite marquee stock ticker */
-@keyframes ticker {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
+/* ─────────────────────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────────────────────── */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
-.animate-ticker {
-  display: inline-flex;
-  white-space: nowrap;
-  animation: ticker 25s linear infinite;
-}
-
-.animate-ticker:hover {
-  animation-play-state: paused;
-}
+.mobile-menu-enter { animation: slideDown 0.25s ease-out forwards; }

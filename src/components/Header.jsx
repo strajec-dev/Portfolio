@@ -1,140 +1,126 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X, Globe, Radio } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, ArrowRight } from 'lucide-react';
+
+const navLinks = [
+  { name: 'Home',      to: '/' },
+  { name: 'Services',  to: '/services' },
+  { name: 'Work',      to: '/projects' },
+  { name: 'Process',   to: '/process' },
+  { name: 'Pricing',   to: '/pricing' },
+  { name: 'Team',      to: '/team' },
+  { name: 'About',     to: '/about' },
+  { name: 'FAQ',       to: '/faq' },
+];
 
 export default function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [currentDate, setCurrentDate] = useState('');
+  const [open,     setOpen]    = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const today = new Date().toLocaleDateString('en-US', options);
-    setCurrentDate(today);
+    const onScroll = () => setScrolled(window.scrollY > 32);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', to: '/' },
-    { name: 'About Us', to: '/about' },
-    { name: 'Services', to: '/services' },
-    { name: 'Our Team', to: '/team' },
-    { name: 'Portfolio', to: '/projects' },
-    { name: 'Pricing', to: '/pricing' },
-    { name: 'Process', to: '/process' },
-    { name: 'FAQ', to: '/faq' },
-    { name: 'Contact', to: '/contact' },
-  ];
+  useEffect(() => { setOpen(false); }, [location]);
+
+  const active = (p) => location.pathname === p;
 
   return (
-    <>
-      <header className="w-full bg-paper border-b-4 border-ink z-40 relative">
-        {/* Marquee Ticker */}
-        <div className="w-full bg-ink text-paper py-2 border-b border-ink overflow-hidden select-none text-xs font-mono tracking-wider flex items-center">
-          <div className="animate-ticker flex items-center gap-12 whitespace-nowrap">
-            <span className="flex items-center gap-2">
-              <Radio className="h-3.5 w-3.5 text-editorial-red animate-pulse" />
-              LATEST EDITION: VOL 1.0
-            </span>
-            <span>•</span>
-            <span>AGENCY LOCATION: MAGALLANES, AGUSAN DEL NORTE, CARAGA</span>
-            <span>•</span>
-            <span>TECH STATUS: FULL STACK READY (REACT, LARAVEL, DJANGO)</span>
-            <span>•</span>
-            <span>AVAILABILITY: NOW ACCEPTING Q3 CLIENTS</span>
-            <span>•</span>
-            <span>RESPONSE GUARANTEE: WITHIN 24 HOURS</span>
-            <span>•</span>
-            <span className="flex items-center gap-2">
-              <Globe className="h-3.5 w-3.5 text-editorial-green animate-spin" />
-              BUILDING THE FUTURE OF WEB
-            </span>
-            <span>•</span>
-            {/* Duplicate to ensure seamless looping */}
-            <span className="flex items-center gap-2">
-              <Radio className="h-3.5 w-3.5 text-editorial-red animate-pulse" />
-              LATEST EDITION: VOL 1.0
-            </span>
-            <span>•</span>
-            <span>AGENCY LOCATION: MAGALLANES, AGUSAN DEL NORTE, CARAGA</span>
-            <span>•</span>
-            <span>TECH STATUS: FULL STACK READY (REACT, LARAVEL, DJANGO)</span>
-            <span>•</span>
-            <span>AVAILABILITY: NOW ACCEPTING Q3 CLIENTS</span>
-            <span>•</span>
-            <span>RESPONSE GUARANTEE: WITHIN 24 HOURS</span>
-            <span>•</span>
-            <span className="flex items-center gap-2">
-              <Globe className="h-3.5 w-3.5 text-editorial-green animate-spin" />
-              BUILDING THE FUTURE OF WEB
-            </span>
-            <span>•</span>
-          </div>
-        </div>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-snow/90 backdrop-blur-md border-b border-[#E5E7EB] shadow-[0_1px_12px_rgba(0,0,0,0.05)]'
+          : 'bg-transparent border-b border-transparent'
+      }`}
+    >
+      <div className="container-wide">
+        <div className="flex items-center justify-between h-16 lg:h-18">
 
-        {/* Main Nameplate (Masthead) */}
-        <div className="max-w-screen-xl mx-auto px-4 py-6 text-center border-b border-ink md:py-8">
-          <h1 className="font-serif text-red-500 text-3xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight select-none">
-            Attracting customers to your business, online.
-          </h1>
-        </div>
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2.5 group" aria-label="Strajec">
+            {/* Geometric mark */}
+            <div className="relative w-7 h-7 flex-shrink-0">
+              <div className="absolute inset-0 bg-navy rounded-md group-hover:rotate-12 transition-transform duration-300" />
+              <span className="absolute inset-0 flex items-center justify-center font-display font-black text-white text-xs leading-none">
+                S
+              </span>
+            </div>
+            <span className="font-display font-extrabold text-lg tracking-tight text-navy leading-none">
+              Strajec
+            </span>
+          </Link>
 
-        {/* Newspaper Metadata Sub-bar */}
-        <div className="max-w-screen-xl mx-auto px-4 py-2 border-b border-ink flex flex-col sm:flex-row justify-between items-center text-xs font-mono tracking-widest text-neutral-700 gap-2">
-          <div>VOL. 1.0 NO. 4 (CARAGA TEAM)</div>
-          <div className="uppercase">{currentDate}</div>
-          <div className="flex items-center gap-4">
-            <span>PRICE: ₱8,000+</span>
-            <span className="hidden sm:inline">|</span>
-            <span className="text-editorial-red font-bold animate-pulse">● LIVE IN MAGALLANES, CARAGA</span>
-          </div>
-        </div>
-      </header>
-
-      {/* Navigation Sub-bar */}
-      <nav className="sticky top-0 bg-paper/95 backdrop-blur-sm z-30 border-b border-ink">
-        <div className="max-w-screen-xl mx-auto px-4 flex justify-between items-center h-12">
-          {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center justify-between w-full font-sans text-xs tracking-widest uppercase font-bold">
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center gap-0.5" aria-label="Main Navigation">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.to}
-                className="py-3 px-3 transition-colors duration-200 border-r border-ink hover:text-editorial-red last:border-r-0 h-12 flex items-center justify-center flex-1 text-center"
+                className={`nav-link px-3.5 py-2 text-[0.8rem] font-medium transition-colors duration-200 ${
+                  active(link.to)
+                    ? 'text-navy font-semibold'
+                    : 'text-mid-grey hover:text-navy'
+                }`}
               >
                 {link.name}
               </Link>
             ))}
-          </div>
+          </nav>
 
-          {/* Mobile Navigation Header */}
-          <div className="lg:hidden flex items-center justify-between w-full">
-            <span className="font-sans font-bold text-xs tracking-widest uppercase">NAVIGATION</span>
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 border border-ink hover:bg-ink hover:text-paper transition-all select-none"
-              aria-label="Toggle menu"
+          {/* Desktop CTA */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Link
+              to="/contact"
+              data-cursor="start"
+              className="btn-primary text-[0.8rem] py-2.5 px-5"
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+              Start a project
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
-        </div>
 
-        {/* Mobile Navigation Drawer */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-ink bg-paper absolute top-12 left-0 w-full z-50 flex flex-col font-sans text-sm tracking-wider uppercase font-bold">
+          {/* Mobile toggle */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="lg:hidden p-2 rounded-lg text-navy hover:bg-navy/5 transition"
+            aria-label="Toggle menu"
+          >
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {open && (
+        <div className="lg:hidden bg-snow border-t border-[#E5E7EB] shadow-lg mobile-menu-enter">
+          <nav className="container-wide py-5 flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.to}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-4 border-b border-ink hover:bg-neutral-100 hover:text-editorial-red flex items-center justify-between"
+                className={`px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
+                  active(link.to)
+                    ? 'text-navy bg-navy/5 font-semibold'
+                    : 'text-mid-grey hover:text-navy hover:bg-navy/5'
+                }`}
               >
-                <span>{link.name}</span>
-                <span className="text-neutral-400">➔</span>
+                {link.name}
               </Link>
             ))}
-          </div>
-        )}
-      </nav>
-    </>
+            <div className="pt-4 mt-1 border-t border-[#E5E7EB]">
+              <Link
+                to="/contact"
+                className="btn-primary w-full justify-center text-sm"
+              >
+                Start a project <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
   );
 }

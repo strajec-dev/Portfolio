@@ -1,87 +1,132 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Github, Facebook, Linkedin, Instagram, Mail, MapPin, Phone } from 'lucide-react';
+
+const nav = [
+  { name: 'Services',     to: '/services' },
+  { name: 'Work',         to: '/projects' },
+  { name: 'Process',      to: '/process' },
+  { name: 'Pricing',      to: '/pricing' },
+  { name: 'Team',         to: '/team' },
+  { name: 'About',        to: '/about' },
+  { name: 'FAQ',          to: '/faq' },
+  { name: 'Contact',      to: '/contact' },
+];
+
+const socials = [
+  { Icon: Facebook,  href: 'https://www.facebook.com/profile.php?id=61591696464731', label: 'Facebook' },
+  { Icon: Instagram, href: 'https://www.instagram.com/magnet.solutionsph/', label: 'Instagram' },
+  { Icon: Github,    href: 'https://github.com', label: 'GitHub' },
+  { Icon: Linkedin,  href: 'https://linkedin.com', label: 'LinkedIn' },
+];
 
 export default function Footer() {
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="w-full bg-paper border-t-4 border-ink py-12 md:py-16">
-      <div className="max-w-screen-xl mx-auto px-4">
-        {/* Large Centered Logo Wordmark */}
-        <div className="text-center pb-8 border-b border-ink">
-          <h2 className="font-serif font-black text-3xl sm:text-5xl md:text-6xl uppercase tracking-tighter text-ink select-none">
-            THE MagNET SOLUTIONS GLOBE
-          </h2>
-          <p className="font-mono text-[10px] sm:text-xs tracking-widest text-neutral-500 uppercase mt-2">
-            VOLUME 1.0 // EDITION NO. 4 // MAGALLANES, AGUSAN DEL NORTE, CARAGA, PHILIPPINES
-          </p>
-        </div>
+    <footer className="bg-navy-dark text-white">
 
-        {/* Footer grid sections */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 py-10 border-b border-ink">
-          {/* Col 1: About */}
-          <div className="md:col-span-2 space-y-4">
-            <h4 className="font-sans font-bold text-xs uppercase tracking-widest text-ink border-b border-ink pb-2 w-fit">
-              PUBLICATION STATEMENT
-            </h4>
-            <p className="font-body text-xs md:text-sm text-neutral-600 leading-relaxed text-justify-columns">
-              MagNet Solutions operates as a dedicated web developer agency based in Magallanes, Agusan del Norte, Caraga, Philippines. We reject complex, proprietary CMS systems and generic templates in favor of direct code ownership, clean search engine optimization, and robust visual design structures.
+      {/* Gold top rule */}
+      <div className="h-[3px] w-full bg-gold" />
+
+      <div className="container-wide pt-20 pb-10">
+
+        {/* ── Top: wordmark + nav + cta ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_auto] gap-16 pb-16 border-b border-white/8">
+
+          {/* Brand */}
+          <div className="space-y-6 max-w-xs">
+            <Link to="/" className="flex items-center gap-2.5 group w-fit">
+              <div className="relative w-8 h-8">
+                <div className="absolute inset-0 bg-gold rounded-lg rotate-45 group-hover:rotate-[30deg] transition-transform duration-300" />
+                <span className="absolute inset-0 flex items-center justify-center font-display font-black text-navy text-xs">S</span>
+              </div>
+              <span className="font-display font-black text-xl text-white group-hover:text-gold transition-colors">Strajec</span>
+            </Link>
+
+            <p className="text-white/45 text-sm leading-relaxed">
+              A digital studio crafting exceptional websites and web applications for ambitious brands across the Philippines.
             </p>
+
+            <div className="space-y-2.5">
+              {[
+                { Icon: MapPin, text: 'Magallanes, Agusan del Norte, Caraga' },
+                { Icon: Mail,   text: 'magnet.solutionsph@gmail.com' },
+                { Icon: Phone,  text: '+63 994 100 6573' },
+              ].map(({ Icon, text }, i) => (
+                <div key={i} className="flex items-start gap-2.5">
+                  <Icon className="w-3.5 h-3.5 text-gold/60 mt-0.5 flex-shrink-0" />
+                  <span className="text-white/40 text-xs">{text}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-2">
+              {socials.map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cursor={label.toLowerCase()}
+                  className="w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white/40 hover:border-gold/40 hover:text-gold transition-all duration-200"
+                  aria-label={label}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Col 2: Navigation Links */}
-          <div className="space-y-4">
-            <h4 className="font-sans font-bold text-xs uppercase tracking-widest text-ink border-b border-ink pb-2 w-fit">
-              SECTIONS
-            </h4>
-            <ul className="grid grid-cols-2 gap-2 font-mono text-xs uppercase tracking-wider">
-              <li><Link to="/" className="hover:text-editorial-red hover:underline">01. Home</Link></li>
-              <li><Link to="/about" className="hover:text-editorial-red hover:underline">02. About</Link></li>
-              <li><Link to="/services" className="hover:text-editorial-red hover:underline">03. Services</Link></li>
-              <li><Link to="/team" className="hover:text-editorial-red hover:underline">04. Team</Link></li>
-              <li><Link to="/projects" className="hover:text-editorial-red hover:underline">05. Portfolio</Link></li>
-              <li><Link to="/pricing" className="hover:text-editorial-red hover:underline">06. Pricing</Link></li>
-              <li><Link to="/process" className="hover:text-editorial-red hover:underline">07. Process</Link></li>
-              <li><Link to="/faq" className="hover:text-editorial-red hover:underline">08. FAQ</Link></li>
+          {/* Navigation */}
+          <div>
+            <p className="font-mono text-label font-medium text-white/25 tracking-[0.14em] uppercase mb-5">Navigation</p>
+            <ul className="space-y-3">
+              {nav.slice(0, 4).map((link) => (
+                <li key={link.name}>
+                  <Link to={link.to} className="text-white/50 text-sm hover:text-white transition-colors duration-200">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Col 3: Details */}
-          <div className="space-y-4">
-            <h4 className="font-sans font-bold text-xs uppercase tracking-widest text-ink border-b border-ink pb-2 w-fit">
-              METRICS &amp; REPLIES
-            </h4>
-            <ul className="font-mono text-xs space-y-2 uppercase text-neutral-600">
-              <li>SYSTEM SPEED: A-GRADE</li>
-              <li>REPLY TIME: &lt;24 HOURS</li>
-              <li>CODENAME: PROJECT-CARAGA</li>
-              <li>CORE STACK: REACT + LARAVEL</li>
+          <div>
+            <p className="font-mono text-label font-medium text-white/25 tracking-[0.14em] uppercase mb-5 opacity-0 pointer-events-none select-none">_</p>
+            <ul className="space-y-3">
+              {nav.slice(4).map((link) => (
+                <li key={link.name}>
+                  <Link to={link.to} className="text-white/50 text-sm hover:text-white transition-colors duration-200">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Bottom Credits and scroll up */}
-        <div className="pt-8 flex flex-col sm:flex-row justify-between items-center text-xs font-mono tracking-widest text-neutral-600 gap-4">
-          <div>
-            &copy; {new Date().getFullYear()} MagNET SOLUTIONS GLOBE. ALL RIGHTS EXPLICITLY CODED.
-          </div>
-          
-          <div className="flex items-center gap-6">
-            <span>PRINTED IN THE PHILIPPINES</span>
-            
+        {/* ── Bottom bar ── */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-white/25 text-xs">
+            © {new Date().getFullYear()} Strajec. All rights reserved.
+          </p>
+          <div className="flex items-center gap-5">
+            <span className="text-white/25 text-xs">
+              <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-2 align-middle" />
+              Accepting new clients
+            </span>
             <button
-              onClick={handleScrollToTop}
-              className="p-2 border border-ink bg-paper hover:bg-ink hover:text-paper hover:shadow-hard-sm hover:-translate-y-0.5 select-none transition-all flex items-center justify-center gap-1.5 font-sans font-bold text-[10px]"
-              aria-label="Back to Top"
+              onClick={toTop}
+              data-cursor="top"
+              className="flex items-center gap-1.5 text-white/40 text-xs hover:text-gold transition-colors"
+              aria-label="Back to top"
             >
-              <span>TOP</span>
-              <ArrowUp className="h-3.5 w-3.5" />
+              <ArrowUp className="w-3.5 h-3.5" /> Top
             </button>
           </div>
         </div>
+
       </div>
     </footer>
   );

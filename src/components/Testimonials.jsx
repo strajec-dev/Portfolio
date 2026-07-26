@@ -1,101 +1,101 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Star, Quote } from 'lucide-react';
-import { AnimateSection, StaggerContainer, StaggerItem } from './AnimateSection';
+import { Star } from 'lucide-react';
+
+const reviews = [
+  {
+    name: 'Marites Calo',
+    business: 'Butuan Coffee Grind',
+    text: 'Strajec built our online ordering portal in under two weeks. Mobile orders increased by 40% immediately. They explain technical terms in plain English — working with them was effortless.',
+    initials: 'MC',
+  },
+  {
+    name: 'Engr. Junel Coro',
+    business: 'Caraga Logistical Solutions',
+    text: 'An extremely professional team. They configured our fleet dashboard and client inventory database with absolute precision. Direct communication, no delays, local support.',
+    initials: 'JC',
+  },
+  {
+    name: 'Dr. Sandra Lim',
+    business: 'Lim Dental Clinic Surigao',
+    text: 'The automated scheduling system saved my receptionist hours of phone calls. Patients find it incredibly easy to book slots on their mobile. Highly recommended.',
+    initials: 'SL',
+  },
+];
+
+function useReveal(ref) {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 80);
+            });
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref]);
+}
 
 export default function Testimonials() {
-  const reviews = [
-    {
-      name: 'Marites Calo',
-      business: 'Butuan Coffee Grind',
-      rating: 5,
-      text: 'MagNet Solutions constructed our online ordering portal in under two weeks. Our mobile orders increased by 40% immediately. They explain technical terms in plain English which made working with them an absolute breeze!',
-      avatarBg: 'bg-editorial-pink',
-      letter: 'M'
-    },
-    {
-      name: 'Engr. Junel Coro',
-      business: 'Caraga Logistical Solutions',
-      rating: 5,
-      text: 'Extremely professional team. They configured our fleet shipping dashboard and client inventory database with absolute precision. We highly value their direct communication channels and local support.',
-      avatarBg: 'bg-editorial-violet',
-      letter: 'J'
-    },
-    {
-      name: 'Dr. Sandra Lim',
-      business: 'Lim Dental Clinic Surigao',
-      rating: 5,
-      text: 'The automated scheduling system has saved my receptionist hours of phone coordinate calls. Patients find it incredibly easy to book dental slots on their mobile devices. Highly recommended!',
-      avatarBg: 'bg-editorial-green',
-      letter: 'S'
-    }
-  ];
+  const ref = useRef(null);
+  useReveal(ref);
 
   return (
     <>
       <Helmet>
-        <title>Testimonials | MagNet Solutions - Web Developer Caraga Reviews</title>
-        <meta name="description" content="Client reviews and testimonials for MagNet Solutions web developer and web designer services in Agusan del Norte, Caraga, Philippines." />
-        <meta property="og:title" content="Testimonials | MagNet Solutions - Web Developer Caraga Reviews" />
-        <meta property="og:description" content="Client reviews and testimonials for MagNet Solutions web developer and web designer services in Agusan del Norte, Caraga, Philippines." />
+        <title>Testimonials | Strajec — Client Reviews Philippines</title>
+        <meta name="description" content="Client reviews for Strajec web development services in Caraga, Philippines." />
       </Helmet>
-      <section id="testimonials" className="max-w-screen-xl mx-auto px-4 py-16 border-b border-ink">
-        <div className="mb-12">
-          <span className="font-mono text-xs tracking-widest uppercase font-bold text-neutral-500 block mb-2">
-            [ SECTION 08: VERIFIED CLIENT STATEMENTS ]
-          </span>
-          <h3 className="font-serif font-black text-4xl md:text-5xl uppercase tracking-tight text-ink">
-            CLIENT EDITORIALS
-          </h3>
-          <p className="font-body text-neutral-600 mt-2 max-w-xl">
-            Don't just take our word for it. Here is what business operators in the Caraga region say about our web systems.
-          </p>
-        </div>
 
-        {/* Row of quotes styled like letters to the editor */}
-        <StaggerContainer className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {reviews.map((rev, index) => (
-            <StaggerItem key={rev.name}>
-            <div
-              className="border-2 border-ink bg-paper p-6 relative flex flex-col justify-between hover:shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200"
-            >
-              {/* Quote Icon Background */}
-              <div className="absolute top-4 right-4 text-neutral-200 pointer-events-none z-0">
-                <Quote className="h-10 w-10 rotate-180" />
-              </div>
+      <section id="testimonials" ref={ref} className="section-block bg-snow">
+        <div className="container-wide">
 
-              <div className="z-10">
-                {/* Star Rating */}
-                <div className="flex items-center gap-0.5 mb-4">
-                  {[...Array(rev.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-editorial-yellow text-ink" strokeWidth={2} />
+          {/* ── Header ── */}
+          <div className="reveal mb-16 pb-8 border-b border-[#E5E7EB]">
+            <p className="section-label mb-4">Client stories</p>
+            <h2 className="h2 text-navy">What clients say</h2>
+          </div>
+
+          {/* ── Reviews ── */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {reviews.map((rev, i) => (
+              <div
+                key={rev.name}
+                className={`reveal reveal-delay-${Math.min(i + 1, 3)} card p-8 flex flex-col`}
+              >
+                {/* Stars */}
+                <div className="flex gap-0.5 mb-6">
+                  {[...Array(5)].map((_, j) => (
+                    <Star key={j} className="w-3.5 h-3.5 fill-gold text-gold" />
                   ))}
                 </div>
 
-                {/* Review Text */}
-                <blockquote className="font-body italic text-sm md:text-base text-neutral-800 leading-relaxed mb-6 text-justify-columns">
+                {/* Quote */}
+                <blockquote className="flex-1 text-[#3D4451] text-sm leading-[1.8] mb-8">
                   "{rev.text}"
                 </blockquote>
-              </div>
 
-              {/* Author Profile */}
-              <div className="flex items-center gap-3 pt-4 border-t border-dashed border-neutral-300 z-10">
-                <div className={`w-10 h-10 border border-ink ${rev.avatarBg} flex items-center justify-center font-mono font-bold text-ink shrink-0`}>
-                  {rev.letter}
-                </div>
-                <div>
-                  <h4 className="font-sans font-bold text-xs uppercase tracking-wide text-ink">
-                    {rev.name}
-                  </h4>
-                  <p className="font-mono text-[9px] tracking-wider text-neutral-500 uppercase">
-                    {rev.business}
-                  </p>
+                {/* Author */}
+                <div className="flex items-center gap-3 pt-6 border-t border-[#E5E7EB]">
+                  <div className="w-9 h-9 rounded-full bg-navy flex items-center justify-center flex-shrink-0">
+                    <span className="font-display font-black text-[0.65rem] text-white">{rev.initials}</span>
+                  </div>
+                  <div>
+                    <p className="font-display font-semibold text-sm text-navy leading-none mb-0.5">{rev.name}</p>
+                    <p className="section-index">{rev.business}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+            ))}
+          </div>
+
+        </div>
       </section>
     </>
   );
