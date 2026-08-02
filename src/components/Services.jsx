@@ -142,7 +142,7 @@ export default function Services() {
               return (
                 <div
                   key={svc.num}
-                  className={`reveal reveal-delay-${Math.min(i + 1, 4)} group bg-white rounded-3xl border border-[#E5E7EB] hover:border-gold/60 p-8 transition-all duration-300 hover:shadow-card-hover flex flex-col justify-between relative`}
+                  className={`reveal reveal-scale reveal-delay-${Math.min(i + 1, 4)} group bg-white rounded-3xl border border-[#E5E7EB] hover:border-gold/60 p-8 transition-all duration-300 hover:shadow-card-hover flex flex-col justify-between relative`}
                 >
                   <div>
                     {/* Header: Icon + Pricing Badge */}

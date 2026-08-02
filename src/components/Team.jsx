@@ -104,7 +104,7 @@ export default function Team() {
             {members.map((m, i) => {
               const initials = m.name.split(' ').map(n => n[0]).join('').slice(0, 2);
               return (
-                <div key={m.name} className={`reveal reveal-delay-${Math.min(i + 1, 4)} card group flex flex-col overflow-hidden`}>
+                <div key={m.name} className={`reveal reveal-blur reveal-delay-${Math.min(i + 1, 4)} card group flex flex-col overflow-hidden`}>
 
                   {/* Photo */}
                   <div className="relative aspect-[3/4] bg-off-white overflow-hidden">

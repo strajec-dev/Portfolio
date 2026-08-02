@@ -75,10 +75,9 @@ export default function About() {
           </div>
 
           {/* ── Story + Stats ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24 reveal reveal-delay-1">
-
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
             {/* Story */}
-            <div className="space-y-6">
+            <div className="reveal reveal-left reveal-delay-1 space-y-6">
               <p className="text-[1.125rem] text-[#1E2A3B] leading-[1.8] font-light">
                 <strong className="font-bold text-navy">Strajec</strong> isn’t a corporate agency. We are simply a group of close friends and fresh <strong className="font-bold text-navy">BSIT (Information Technology)</strong> graduates based in Caraga, Philippines. 
               </p>
@@ -91,7 +90,7 @@ export default function About() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 gap-px bg-[#E5E7EB] border border-[#E5E7EB] rounded-2xl overflow-hidden">
+            <div className="reveal reveal-right reveal-delay-2 grid grid-cols-2 gap-px bg-[#E5E7EB] border border-[#E5E7EB] rounded-2xl overflow-hidden">
               {stats.map((s) => (
                 <div key={s.label} className="bg-snow p-8 flex flex-col justify-between">
                   <span className="font-display font-black text-4xl text-navy mb-2">{s.value}</span>

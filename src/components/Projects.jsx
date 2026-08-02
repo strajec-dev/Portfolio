@@ -127,7 +127,7 @@ export default function Projects() {
             {filtered.map((project, i) => (
               <div
                 key={project.id}
-                className={`reveal reveal-delay-${Math.min(i + 1, 4)} card group flex flex-col overflow-hidden`}
+                className={`reveal reveal-scale reveal-delay-${Math.min(i + 1, 4)} card group flex flex-col overflow-hidden`}
               >
                 {/* Screenshot */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-off-white">
