@@ -4,13 +4,10 @@ import { Menu, X, ArrowRight } from 'lucide-react';
 
 const navLinks = [
   { name: 'Home',      to: '/' },
-  { name: 'Services',  to: '/services' },
   { name: 'Work',      to: '/projects' },
   { name: 'Process',   to: '/process' },
-  { name: 'Pricing',   to: '/pricing' },
   { name: 'Team',      to: '/team' },
-  { name: 'About',     to: '/about' },
-  { name: 'FAQ',       to: '/faq' },
+  { name: 'Contact',   to: '/contact' },
 ];
 
 export default function Header() {
@@ -44,9 +41,7 @@ export default function Header() {
             {/* Geometric mark */}
             <div className="relative w-7 h-7 flex-shrink-0">
               <div className="absolute inset-0 bg-navy rounded-md group-hover:rotate-12 transition-transform duration-300" />
-              <span className="absolute inset-0 flex items-center justify-center font-display font-black text-white text-xs leading-none">
-                S
-              </span>
+              <img src="/Straject-logo.png" alt="Strajec" className="absolute inset-0 w-full h-full object-contain group-hover:rotate-12 transition-transform duration-300" />
             </div>
             <span className="font-display font-extrabold text-lg tracking-tight text-navy leading-none">
               Strajec

@@ -3,47 +3,30 @@ import { Helmet } from 'react-helmet-async';
 import {
   Monitor, ShoppingBag, Code2, CalendarRange,
   Sparkles, Settings, GraduationCap, ArrowRight,
-  CheckCircle2, Clock, Tag
+  CheckCircle2, Clock, Tag, Cpu
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const services = [
   {
     num: '01',
-    title: 'Business Websites',
-    description: 'Perfect for local shops, cafes, clinics, and service providers who want a professional presence on Google.',
+    title: 'Business & E-Commerce Websites',
+    description: 'Perfect for local shops, cafes, and retailers wanting a professional presence or to sell products online.',
     icon: Monitor,
-    price: '₱8,000',
-    delivery: '7–10 days',
+    delivery: '7–21 days',
     features: [
-      'Mobile-ready & works on all phones',
+      'Mobile-ready design & local SEO',
       'Google Maps & contact form setup',
-      'Basic SEO so locals can find you',
-      'Free domain & hosting assistance'
+      'GCash, PayMaya & Card payments',
+      'Product inventory management'
     ],
-    target: 'Restaurants, Cafes, Dental/Medical Clinics, Law Firms'
+    target: 'Restaurants, Retail Shops, Clinics, Clothing Brands'
   },
   {
     num: '02',
-    title: 'E-Commerce Stores',
-    description: 'Start selling your products online with automated GCash, PayMaya, and credit card payments.',
-    icon: ShoppingBag,
-    price: '₱15,000',
-    delivery: '14–21 days',
-    features: [
-      'GCash, PayMaya & Card payment setup',
-      'Product inventory management system',
-      'Automatic order invoice emails',
-      'Simple admin panel to add products'
-    ],
-    target: 'Online retail shops, Clothing brands, Local boutiques'
-  },
-  {
-    num: '03',
     title: 'Booking & Scheduling Systems',
     description: 'Let customers book appointments or reserve tables directly from your website 24/7.',
     icon: CalendarRange,
-    price: '₱12,000',
     delivery: '10–14 days',
     features: [
       'Interactive online booking calendar',
@@ -54,11 +37,10 @@ const services = [
     target: 'Barbershops, Salons, Pet Grooming, Hotels, Tutors'
   },
   {
-    num: '04',
+    num: '03',
     title: 'Landing Pages',
     description: 'A single-page website tailored to promote one specific product, event, or special local promotion.',
     icon: Sparkles,
-    price: '₱5,000',
     delivery: '3–5 days',
     features: [
       'High-converting call-to-action layout',
@@ -69,11 +51,10 @@ const services = [
     target: 'Real estate agents, Event organizers, Product launches'
   },
   {
-    num: '05',
+    num: '04',
     title: 'Website Maintenance',
     description: 'Keep your website secure, fast, and up-to-date while you focus on running your business.',
     icon: Settings,
-    price: '₱1,500/mo',
     delivery: 'Monthly support',
     features: [
       'Regular backups of your site files',
@@ -84,19 +65,32 @@ const services = [
     target: 'Busy business owners who do not want to manage tech'
   },
   {
-    num: '06',
+    num: '05',
     title: 'Academic & Capstone Projects',
     description: 'Need a working system for your thesis or capstone? We build fully functional web systems with clean code.',
     icon: GraduationCap,
-    price: '₱6,000+',
     delivery: 'Depends on scope',
     features: [
       'Custom database and login system',
       'Complete, bug-free project walkthrough',
       'Full deployment assistance',
-      'Student-friendly pricing and terms'
+      'Student-friendly terms'
     ],
     target: 'BSIT, BSCS, and College students in Caraga'
+  },
+  {
+    num: '06',
+    title: 'Hardware & IoT (Arduino)',
+    description: 'Custom hardware prototypes and smart automation solutions using Arduino and microcontrollers.',
+    icon: Cpu,
+    delivery: 'Depends on scope',
+    features: [
+      'Custom circuit design & wiring',
+      'Arduino programming & sensors',
+      'Hardware-software integration',
+      'Prototyping and testing'
+    ],
+    target: 'Inventors, students, and businesses needing automation'
   },
 ];
 
@@ -124,12 +118,6 @@ export default function Services() {
   useReveal(ref);
 
   return (
-    <>
-      <Helmet>
-        <title>Services & Pricing | Strajec — Web Developers in Caraga</title>
-        <meta name="description" content="Affordable websites and online booking setups for local businesses. Business websites start at ₱8,000. No technical skills required." />
-      </Helmet>
-
       <section id="services" ref={ref} className="section-block bg-off-white">
         <div className="container-wide">
 
@@ -138,11 +126,11 @@ export default function Services() {
             <p className="section-label mb-4">How we help you</p>
             <div className="flex flex-col lg:flex-row lg:items-end gap-6 justify-between">
               <div>
-                <h2 className="h2 text-navy max-w-lg mb-4">Our services & pricing</h2>
-                <p className="body-lg text-navy/80 font-medium">Simple packages. Honest rates. Built for local businesses.</p>
+                <h2 className="h2 text-navy max-w-lg mb-4">Our services & packages</h2>
+                <p className="body-lg text-navy/80 font-medium">Simple packages. Built for local businesses.</p>
               </div>
               <p className="body-sm max-w-sm lg:text-right text-[#4A5568] leading-relaxed">
-                You run your business, we handle the tech. All websites are mobile-friendly and search-engine optimized.
+                From stunning websites to custom Arduino hardware projects, we handle the tech so you can focus on running your business.
               </p>
             </div>
           </div>
@@ -165,10 +153,6 @@ export default function Services() {
                       
                       {/* Cost and Time Info */}
                       <div className="flex items-center gap-3">
-                        <span className="flex items-center gap-1 text-xs font-mono font-bold text-navy bg-navy/5 px-3.5 py-1.5 rounded-full">
-                          <Tag className="w-3.5 h-3.5 text-gold-dark" />
-                          Starts at {svc.price}
-                        </span>
                         <span className="flex items-center gap-1 text-xs font-mono font-bold text-mid-grey bg-off-white px-3.5 py-1.5 rounded-full border border-[#E5E7EB]">
                           <Clock className="w-3.5 h-3.5 text-mid-grey" />
                           {svc.delivery}
@@ -241,6 +225,5 @@ export default function Services() {
 
         </div>
       </section>
-    </>
   );
 }

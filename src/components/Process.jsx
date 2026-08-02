@@ -141,7 +141,7 @@ export default function Process() {
             <p className="font-display font-bold text-xl text-navy">
               Ready to begin?
             </p>
-            <Link to="/#contact" data-cursor="start" className="btn-primary">
+            <Link to="/contact" data-cursor="start" className="btn-primary">
               Start a project <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

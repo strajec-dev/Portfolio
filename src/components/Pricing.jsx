@@ -6,7 +6,6 @@ import { Check, ArrowRight } from 'lucide-react';
 const tiers = [
   {
     name: 'Student',
-    price: 'Negotiable',
     sub: 'Let\'s talk about a fair deal',
     description: 'For students and graduates building academic or personal projects.',
     features: ['Up to 3 pages', 'Mobile responsive', 'Basic contact form', 'Flexible payments', 'Mentorship included'],
@@ -15,7 +14,6 @@ const tiers = [
   },
   {
     name: 'Starter',
-    price: '₱8K – ₱15K',
     sub: '1-week delivery',
     description: 'For local businesses, portfolios, and landing pages entering the digital space.',
     features: ['1–5 responsive pages', 'Contact forms', 'Social integrations', '1-week delivery', 'Basic SEO'],
@@ -24,7 +22,6 @@ const tiers = [
   },
   {
     name: 'Business',
-    price: '₱20K – ₱40K',
     sub: '2-week delivery',
     description: 'For growing companies needing content management, blogs, or custom CMS integrations.',
     features: ['Up to 10 pages', 'CMS included', 'Full SEO setup', 'Speed optimisation', 'Analytics', '1 month free support'],
@@ -33,7 +30,6 @@ const tiers = [
   },
   {
     name: 'Premium',
-    price: '₱50K – ₱80K',
     sub: '3–4 week delivery',
     description: 'For enterprise workflows — e-commerce, booking panels, and fully custom systems.',
     features: ['Unlimited pages', 'E-Commerce', 'Booking / scheduling', 'Custom databases', 'Priority support'],
@@ -68,8 +64,8 @@ export default function Pricing() {
   return (
     <>
       <Helmet>
-        <title>Pricing | Strajec — Digital Studio Philippines</title>
-        <meta name="description" content="Transparent pricing from Strajec. Packages from ₱8,000 for starter websites up to ₱80,000 for premium e-commerce solutions." />
+        <title>Packages | Strajec — Digital Studio Philippines</title>
+        <meta name="description" content="Website packages from Strajec. Contact our team to negotiate custom packages for starter websites up to premium e-commerce solutions." />
       </Helmet>
 
       <section id="pricing" ref={ref} className="section-block bg-snow">
@@ -77,11 +73,11 @@ export default function Pricing() {
 
           {/* ── Header ── */}
           <div className="reveal mb-16 pb-8 border-b border-[#E5E7EB]">
-            <p className="section-label mb-4">Transparent pricing</p>
+            <p className="section-label mb-4">Service Packages</p>
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-              <h2 className="h2 text-navy">Budget estimates</h2>
+              <h2 className="h2 text-navy">Our Packages</h2>
               <p className="body-sm max-w-xs">
-                Fixed packages, no hidden fees,<br />no recurring lock-ins.
+                Tailored solutions for your business,<br />built to scale.
               </p>
             </div>
           </div>
@@ -106,10 +102,9 @@ export default function Pricing() {
                 )}
 
                 <div className="mb-6">
-                  <p className={`section-index mb-3 ${tier.featured ? 'text-white/50' : ''}`}>{tier.name}</p>
-                  <p className={`font-display font-black text-2xl mb-0.5 ${tier.featured ? 'text-white' : 'text-navy'}`}>
-                    {tier.price}
-                  </p>
+                  <h3 className={`font-display font-black text-2xl mb-1 ${tier.featured ? 'text-white' : 'text-navy'}`}>
+                    {tier.name}
+                  </h3>
                   <p className={`text-[0.7rem] font-mono ${tier.featured ? 'text-gold' : 'text-gold-dark'} mb-4`}>
                     {tier.sub}
                   </p>
@@ -150,8 +145,8 @@ export default function Pricing() {
           {/* ── Maintenance note ── */}
           <div className="reveal mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-2xl bg-off-white border border-[#E5E7EB]">
             <div>
-              <p className="font-display font-bold text-navy mb-1">Monthly Maintenance Plan</p>
-              <p className="body-sm">Updates, backups, security sweeps, and content edits — from <strong className="text-navy">₱1,500/month</strong>.</p>
+              <p className="font-display font-bold text-navy mb-1">Monthly Maintenance</p>
+              <p className="body-sm">Updates, backups, security sweeps, and content edits tailored to your needs.</p>
             </div>
             <Link to="/contact" data-cursor="add-on" className="btn-outline flex-shrink-0 text-sm py-2.5 px-5">
               Learn more <ArrowRight className="w-3.5 h-3.5" />

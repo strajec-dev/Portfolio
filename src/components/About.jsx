@@ -57,12 +57,6 @@ export default function About() {
   useReveal(ref);
 
   return (
-    <>
-      <Helmet>
-        <title>About Us | Strajec — Web Developers in Caraga</title>
-        <meta name="description" content="Meet Strajec — a group of fresh BSIT graduates building beautiful websites for local businesses to gain experience." />
-      </Helmet>
-
       <section id="about" ref={ref} className="section-block bg-snow">
         <div className="container-wide">
 
@@ -128,6 +122,5 @@ export default function About() {
 
         </div>
       </section>
-    </>
   );
 }

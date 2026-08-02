@@ -6,11 +6,6 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const CLIENTS = [
-  'FBS Group', "L'Étoile Sauvage", 'MagCare', 'O2 Mack Drive',
-  'La Union SHS', 'Inato Restobar', 'Caraga Logistics', 'Lim Dental',
-];
-
 /* ─── Floating card data ─── */
 const cardLeft = {
   top: {
@@ -80,10 +75,10 @@ export default function Hero() {
   return (
     <>
       <Helmet>
-        <title>Strajec — Websites for Local Businesses in the Philippines</title>
+        <title>Home | Strajec — Digital Solutions for Locals</title>
         <meta
           name="description"
-          content="Strajec helps local businesses get online with beautiful, affordable websites. Trusted by small businesses in Caraga and across the Philippines."
+          content="Strajec helps local businesses get online with beautiful, affordable websites. Trusted by small businesses in Caraga and beyond."
         />
       </Helmet>
 
@@ -113,14 +108,6 @@ export default function Hero() {
 
         {/* ── Centre content ── */}
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-24 pb-8">
-
-          {/* Eyebrow badge */}
-          <div style={fadeIn(0)} className="mb-8">
-            <span className="tag">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold-dark animate-pulse inline-block" />
-              Helping local businesses grow online · Caraga, Philippines
-            </span>
-          </div>
 
           {/* ── Headline with inline toggle ── */}
           <div style={fadeIn(120)} className="max-w-4xl text-center mb-7 px-2">
@@ -313,17 +300,6 @@ export default function Hero() {
 
         </div>
 
-        {/* ── Client marquee ── */}
-        <div className="relative z-10 w-full border-t border-[#E5E7EB] bg-off-white overflow-hidden py-4">
-          <div className="flex gap-14 items-center animate-ticker w-max">
-            {[...CLIENTS, ...CLIENTS].map((name, i) => (
-              <span key={i} className="font-mono text-label text-mid-grey whitespace-nowrap tracking-wide flex items-center gap-3">
-                <span className="w-1 h-1 rounded-full bg-gold-dark/40 inline-block" />
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
       </section>
     </>
   );

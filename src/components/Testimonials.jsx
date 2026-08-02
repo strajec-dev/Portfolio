@@ -47,12 +47,6 @@ export default function Testimonials() {
   useReveal(ref);
 
   return (
-    <>
-      <Helmet>
-        <title>Testimonials | Strajec — Client Reviews Philippines</title>
-        <meta name="description" content="Client reviews for Strajec web development services in Caraga, Philippines." />
-      </Helmet>
-
       <section id="testimonials" ref={ref} className="section-block bg-snow">
         <div className="container-wide">
 
@@ -97,6 +91,5 @@ export default function Testimonials() {
 
         </div>
       </section>
-    </>
   );
 }

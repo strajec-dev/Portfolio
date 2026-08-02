@@ -135,7 +135,7 @@ export default function Projects() {
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.04] transition-all duration-500 ease-out"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-all duration-500 ease-out"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center font-display font-black text-4xl text-navy/10">

@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import { ArrowUp, Github, Facebook, Linkedin, Instagram, Mail, MapPin, Phone } from 'lucide-react';
 
 const nav = [
-  { name: 'Services',     to: '/services' },
+  { name: 'Services',     to: '/#services' },
   { name: 'Work',         to: '/projects' },
   { name: 'Process',      to: '/process' },
-  { name: 'Pricing',      to: '/pricing' },
   { name: 'Team',         to: '/team' },
-  { name: 'About',        to: '/about' },
-  { name: 'FAQ',          to: '/faq' },
+  { name: 'About',        to: '/#about' },
+  { name: 'FAQ',          to: '/#faq' },
   { name: 'Contact',      to: '/contact' },
 ];
 

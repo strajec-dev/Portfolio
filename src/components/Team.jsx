@@ -5,11 +5,13 @@ import christianImg from '../image/christian.jpg';
 import juneImg      from '../image/june.jpg';
 import florenceImg  from '../image/florence.jpg';
 import regilImg     from '../image/regil.jpg';
+import simanImg     from '../image/siman.jpg';
 
 const members = [
   {
     name: 'Florence Cris Solayao',
-    bio: 'Focuses on backend systems, database architecture, and building secure server APIs.',
+    role: 'Team Lead & Backend Developer',
+    bio: 'Leads the team and oversees project direction. Specializes in backend systems, database architecture, and secure server-side APIs.',
     photo: florenceImg,
     github:   'https://github.com',
     linkedin: 'https://linkedin.com',
@@ -17,7 +19,8 @@ const members = [
   },
   {
     name: 'Christian John Teofilo',
-    bio: 'Handles server hosting setup, database deployments, and maintaining code versioning repositories.',
+    role: 'Hardware & IoT Engineer',
+    bio: 'Handles all hardware projects including Arduino programming, circuit design, and IoT automation solutions.',
     photo: christianImg,
     github:   'https://github.com',
     linkedin: 'https://linkedin.com',
@@ -25,7 +28,8 @@ const members = [
   },
   {
     name: 'Regil Tagalogon',
-    bio: 'Enjoys coding dynamic page layouts and bridging backend APIs with user-friendly web features.',
+    role: 'Full Stack Developer',
+    bio: 'Works across both backend and frontend — bridging server logic with dynamic, user-friendly web interfaces.',
     photo: regilImg,
     github:   'https://github.com',
     linkedin: 'https://linkedin.com',
@@ -33,7 +37,8 @@ const members = [
   },
   {
     name: 'June Dominic Laurente',
-    bio: 'Works on interactive layout elements, custom page animations, and mobile-friendly responsiveness.',
+    role: 'Frontend Developer',
+    bio: 'Builds interactive layouts, custom animations, and ensures every page looks great and works smoothly on all devices.',
     photo: juneImg,
     github:   'https://github.com',
     linkedin: 'https://linkedin.com',
@@ -41,8 +46,9 @@ const members = [
   },
   {
     name: 'John Rey Siman',
-    bio: 'Designs beautiful visual layouts, creates mockups, and ensures the website matches what clients want.',
-    photo: null,
+    role: 'UI/UX Designer',
+    bio: 'Crafts beautiful visual layouts and mockups, ensuring every website looks exactly the way the client envisioned.',
+    photo: simanImg,
     github:   'https://github.com',
     linkedin: 'https://linkedin.com',
     email:    'mailto:johnrey@strajec.dev',
@@ -106,7 +112,7 @@ export default function Team() {
                       <img
                         src={m.photo}
                         alt={m.name}
-                        className="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-[1.04] transition-all duration-500 ease-out"
+                        className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.04] transition-all duration-500 ease-out"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -119,7 +125,8 @@ export default function Team() {
 
                   {/* Info */}
                   <div className="p-5 flex flex-col flex-1">
-                    <h3 className="font-display font-bold text-sm text-navy leading-tight mb-3">{m.name}</h3>
+                    <h3 className="font-display font-bold text-sm text-navy leading-tight mb-1">{m.name}</h3>
+                    <p className="text-[11px] font-semibold text-[#C8A800] uppercase tracking-wider mb-3 border-b border-[#E5E7EB] pb-2">{m.role}</p>
                     <p className="body-sm text-[0.72rem] leading-relaxed mb-4 flex-1 line-clamp-3">{m.bio}</p>
 
                     {/* Social */}

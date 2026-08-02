@@ -10,19 +10,19 @@ const faqs = [
   },
   {
     q: 'How much does a website cost?',
-    a: 'Packages start at ₱8,000 for starter responsive layouts. Custom systems, portals, and e-commerce setups range from ₱20,000 up to ₱80,000 depending on scope.',
+    a: 'Our packages start as low as ₱5,000. We are very budget-friendly and always open to discussing prices to find a solution that works for your business.',
   },
   {
     q: 'Do you offer payment in installments?',
-    a: '50% downpayment to commence design and development, remaining 50% upon final staging approval before launch.',
+    a: 'We typically require a 50% downpayment to commence work, with the remaining 50% due upon completion. However, we also offer flexible options with downpayments as low as 30% for a hassle-free experience.',
   },
   {
     q: 'Will my website work on mobile?',
-    a: 'All websites are fully mobile responsive. We verify layouts across mobile, tablet, and desktop breakpoints before any handover.',
+    a: 'All websites are fully mobile responsive — we verify layouts across mobile, tablet, and desktop before handover. If you want a dedicated mobile app, we also build those using Flutter!',
   },
   {
     q: 'Do you provide website maintenance?',
-    a: 'Yes. Ongoing plans start at ₱1,500/month covering backups, security audits, software updates, and minor content edits.',
+    a: 'Yes. We offer custom monthly maintenance plans tailored to your needs, covering backups, security audits, software updates, and minor content edits.',
   },
   {
     q: 'Is the domain name included?',
@@ -55,11 +55,6 @@ export default function FAQ() {
   useReveal(ref);
 
   return (
-    <>
-      <Helmet>
-        <title>FAQ | Strajec — Digital Studio Philippines</title>
-        <meta name="description" content="Frequently asked questions about Strajec web development — pricing, timelines, maintenance, and more." />
-      </Helmet>
 
       <section id="faq" ref={ref} className="section-block bg-off-white">
         <div className="container-wide">
@@ -126,6 +121,5 @@ export default function FAQ() {
 
         </div>
       </section>
-    </>
   );
 }
