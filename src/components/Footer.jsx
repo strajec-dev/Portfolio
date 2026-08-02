@@ -50,7 +50,7 @@ export default function Footer() {
             <div className="space-y-2.5">
               {[
                 { Icon: MapPin, text: 'Magallanes, Agusan del Norte, Caraga' },
-                { Icon: Mail,   text: 'magnet.solutionsph@gmail.com' },
+                { Icon: Mail,   text: 'strajec.solutions@gmail.com' },
                 { Icon: Phone,  text: '+63 994 100 6573' },
               ].map(({ Icon, text }, i) => (
                 <div key={i} className="flex items-start gap-2.5">

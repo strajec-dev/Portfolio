@@ -63,7 +63,7 @@ export default function Contact() {
     if (!validate()) return;
     setLoading(true);
     try {
-      const res = await fetch('https://formsubmit.co/ajax/magnet.solutionsph@gmail.com', {
+      const res = await fetch('https://formsubmit.co/ajax/strajec.solutions@gmail.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(formData),
@@ -104,7 +104,7 @@ export default function Contact() {
             {/* ── Left: contact info ── */}
             <div className="reveal space-y-8">
               {[
-                { Icon: Mail,   label: 'Email', value: 'magnet.solutionsph@gmail.com', href: 'mailto:magnet.solutionsph@gmail.com' },
+                { Icon: Mail,   label: 'Email', value: 'strajec.solutions@gmail.com', href: 'mailto:strajec.solutions@gmail.com' },
                 { Icon: Phone,  label: 'Phone', value: '+63 994 100 6573', href: 'tel:+639941006573' },
                 { Icon: MapPin, label: 'Base',  value: 'Magallanes, Agusan del Norte, Caraga, Philippines', href: null },
               ].map(({ Icon, label, value, href }) => (
