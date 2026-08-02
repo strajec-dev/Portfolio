@@ -13,10 +13,10 @@ const nav = [
 ];
 
 const socials = [
-  { Icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61591696464731', label: 'Facebook' },
-  { Icon: Instagram, href: 'https://www.instagram.com/magnet.solutionsph/', label: 'Instagram' },
-  { Icon: Github, href: 'https://github.com', label: 'GitHub' },
-  { Icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
+  { Icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61592866436078', label: 'Facebook' },
+  { Icon: Instagram, href: 'https://www.instagram.com/strajec.solutions/', label: 'Instagram' },
+  { Icon: Github, href: 'https://github.com/strajec-dev', label: 'GitHub' },
+  { Icon: Linkedin, href: 'https://www.linkedin.com/in/strajec-undefined-bb0305427/', label: 'LinkedIn' },
 ];
 
 export default function Footer() {

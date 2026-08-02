@@ -4,10 +4,10 @@ import { Send, CheckCircle2, Facebook, Github, Linkedin, AlertCircle, Instagram,
 
 
 const socials = [
-  { Icon: Facebook,  href: 'https://www.facebook.com/profile.php?id=61591696464731', label: 'Facebook' },
-  { Icon: Instagram, href: 'https://www.instagram.com/magnet.solutionsph/', label: 'Instagram' },
-  { Icon: Github,    href: 'https://github.com', label: 'GitHub' },
-  { Icon: Linkedin,  href: 'https://linkedin.com', label: 'LinkedIn' },
+  { Icon: Facebook,  href: 'https://www.facebook.com/profile.php?id=61592866436078', label: 'Facebook' },
+  { Icon: Instagram, href: 'https://www.instagram.com/strajec.solutions/', label: 'Instagram' },
+  { Icon: Github,    href: 'https://github.com/strajec-dev', label: 'GitHub' },
+  { Icon: Linkedin,  href: 'https://www.linkedin.com/in/strajec-undefined-bb0305427/', label: 'LinkedIn' },
 ];
 
 const field = `w-full bg-white border border-[#D1D5DB] rounded-xl px-4 py-3 text-navy text-sm
