@@ -3,20 +3,20 @@ import { Link } from 'react-router-dom';
 import { ArrowUp, Github, Facebook, Linkedin, Instagram, Mail, MapPin, Phone } from 'lucide-react';
 
 const nav = [
-  { name: 'Services',     to: '/#services' },
-  { name: 'Work',         to: '/projects' },
-  { name: 'Process',      to: '/process' },
-  { name: 'Team',         to: '/team' },
-  { name: 'About',        to: '/#about' },
-  { name: 'FAQ',          to: '/#faq' },
-  { name: 'Contact',      to: '/contact' },
+  { name: 'Services', to: '/#services' },
+  { name: 'Work', to: '/projects' },
+  { name: 'Process', to: '/process' },
+  { name: 'Team', to: '/team' },
+  { name: 'About', to: '/#about' },
+  { name: 'FAQ', to: '/#faq' },
+  { name: 'Contact', to: '/contact' },
 ];
 
 const socials = [
-  { Icon: Facebook,  href: 'https://www.facebook.com/profile.php?id=61591696464731', label: 'Facebook' },
+  { Icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61591696464731', label: 'Facebook' },
   { Icon: Instagram, href: 'https://www.instagram.com/magnet.solutionsph/', label: 'Instagram' },
-  { Icon: Github,    href: 'https://github.com', label: 'GitHub' },
-  { Icon: Linkedin,  href: 'https://linkedin.com', label: 'LinkedIn' },
+  { Icon: Github, href: 'https://github.com', label: 'GitHub' },
+  { Icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
 ];
 
 export default function Footer() {
@@ -37,8 +37,7 @@ export default function Footer() {
           <div className="space-y-6 max-w-xs">
             <Link to="/" className="flex items-center gap-2.5 group w-fit">
               <div className="relative w-8 h-8">
-                <div className="absolute inset-0 bg-gold rounded-lg rotate-45 group-hover:rotate-[30deg] transition-transform duration-300" />
-                <span className="absolute inset-0 flex items-center justify-center font-display font-black text-navy text-xs">S</span>
+                <img src="/Straject-logo.png" alt="Strajec" className="absolute inset-0 w-full h-full object-contain group-hover:rotate-12 transition-transform duration-300" />
               </div>
               <span className="font-display font-black text-xl text-white group-hover:text-gold transition-colors">Strajec</span>
             </Link>
@@ -50,8 +49,8 @@ export default function Footer() {
             <div className="space-y-2.5">
               {[
                 { Icon: MapPin, text: 'Magallanes, Agusan del Norte, Caraga' },
-                { Icon: Mail,   text: 'strajec.solutions@gmail.com' },
-                { Icon: Phone,  text: '+63 994 100 6573' },
+                { Icon: Mail, text: 'strajec.solutions@gmail.com' },
+                { Icon: Phone, text: '+63 994 100 6573' },
               ].map(({ Icon, text }, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <Icon className="w-3.5 h-3.5 text-gold/60 mt-0.5 flex-shrink-0" />

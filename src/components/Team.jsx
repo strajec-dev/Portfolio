@@ -13,7 +13,7 @@ const members = [
     role: 'Team Lead & Backend Developer',
     bio: 'Leads the team and oversees project direction. Specializes in backend systems, database architecture, and secure server-side APIs.',
     photo: florenceImg,
-    github:   'https://github.com',
+    github:   'https://github.com/crissaunt',
     linkedin: 'https://linkedin.com',
     email:    'mailto:florence@strajec.dev',
   },
@@ -22,7 +22,7 @@ const members = [
     role: 'Hardware & IoT Engineer',
     bio: 'Handles all hardware projects including Arduino programming, circuit design, and IoT automation solutions.',
     photo: christianImg,
-    github:   'https://github.com',
+    github:   'https://github.com/Choizens/Choizen',
     linkedin: 'https://linkedin.com',
     email:    'mailto:christian@strajec.dev',
   },
@@ -31,17 +31,17 @@ const members = [
     role: 'Full Stack Developer',
     bio: 'Works across both backend and frontend — bridging server logic with dynamic, user-friendly web interfaces.',
     photo: regilImg,
-    github:   'https://github.com',
-    linkedin: 'https://linkedin.com',
-    email:    'mailto:regil@strajec.dev',
+    github:   'https://github.com/Leype83936222',
+    linkedin: 'https://www.linkedin.com/in/regil-tagalogon-54a3a2401/',
+    email:    'mailto:Regiltagalogon55@gmail.com',
   },
   {
     name: 'June Dominic Laurente',
     role: 'Frontend Developer',
     bio: 'Builds interactive layouts, custom animations, and ensures every page looks great and works smoothly on all devices.',
     photo: juneImg,
-    github:   'https://github.com',
-    linkedin: 'https://linkedin.com',
+    github:   'https://github.com/Jdomelaurente',
+    linkedin: 'https://www.linkedin.com/in/junedominic-laurente/',
     email:    'mailto:june@strajec.dev',
   },
   {
@@ -134,12 +134,11 @@ export default function Team() {
                       {[
                         { href: m.github,   Icon: Github,   label: 'GitHub' },
                         { href: m.linkedin, Icon: Linkedin, label: 'LinkedIn' },
-                        { href: m.email,    Icon: Mail,     label: 'Email' },
                       ].map(({ href, Icon, label }) => (
                         <a
                           key={label}
                           href={href}
-                          target={label !== 'Email' ? '_blank' : undefined}
+                          target="_blank"
                           rel="noreferrer"
                           data-cursor={label.toLowerCase()}
                           className="w-7 h-7 rounded-md border border-[#E5E7EB] flex items-center justify-center text-mid-grey hover:border-navy hover:text-navy hover:bg-navy/5 transition-all duration-200"
