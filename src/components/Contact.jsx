@@ -2,13 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Send, CheckCircle2, Facebook, Github, Linkedin, AlertCircle, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
-const budgets = [
-  { label: '₱8,000 – ₱15,000 — Starter', value: 'starter' },
-  { label: '₱20,000 – ₱40,000 — Business', value: 'business' },
-  { label: '₱50,000 – ₱80,000 — Premium', value: 'premium' },
-  { label: '₱1,500/mo — Maintenance', value: 'maintenance' },
-  { label: 'Custom scope / unsure', value: 'custom' },
-];
 
 const socials = [
   { Icon: Facebook,  href: 'https://www.facebook.com/profile.php?id=61591696464731', label: 'Facebook' },
@@ -59,7 +52,7 @@ export default function Contact() {
     if (!formData.name.trim())  e.name = 'Name is required.';
     if (!formData.email.trim()) e.email = 'Email is required.';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) e.email = 'Invalid email format.';
-    if (!formData.budget)       e.budget = 'Please select a budget range.';
+    if (!formData.budget.trim()) e.budget = 'Please specify your budget.';
     if (!formData.desc.trim())  e.desc = 'Please describe your project.';
     setErrors(e);
     return !Object.keys(e).length;
@@ -198,11 +191,8 @@ export default function Contact() {
 
                   {/* Budget */}
                   <div>
-                    <label className="section-index block mb-2">Budget Range *</label>
-                    <select id="contact-budget" name="budget" value={formData.budget} onChange={handleChange} className={`${field} cursor-pointer`} style={{ colorScheme: 'light' }}>
-                      <option value="" disabled>Select a range</option>
-                      {budgets.map(b => <option key={b.value} value={b.value}>{b.label}</option>)}
-                    </select>
+                    <label className="section-index block mb-2">Estimated Budget *</label>
+                    <input type="text" id="contact-budget" name="budget" value={formData.budget} onChange={handleChange} placeholder="e.g. ₱5,000 or custom price" className={field} />
                     {errors.budget && <p className="text-[0.72rem] text-red-500 mt-1.5 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.budget}</p>}
                   </div>
                 </div>
