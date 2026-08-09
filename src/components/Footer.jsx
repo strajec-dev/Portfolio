@@ -48,13 +48,17 @@ export default function Footer() {
 
             <div className="space-y-2.5">
               {[
-                { Icon: MapPin, text: 'Magallanes, Agusan del Norte, Caraga' },
-                { Icon: Mail, text: 'strajec.solutions@gmail.com' },
-                { Icon: Phone, text: '+63 994 100 6573' },
-              ].map(({ Icon, text }, i) => (
+                { Icon: MapPin, text: 'Magallanes, Agusan del Norte, Caraga', href: 'https://maps.app.goo.gl/a2EJtjCTbthZJZCi6' },
+                { Icon: Mail, text: 'strajec.solutions@gmail.com', href: 'mailto:strajec.solutions@gmail.com' },
+                { Icon: Phone, text: '+63 994 100 6573', href: 'tel:+639941006573' },
+              ].map(({ Icon, text, href }, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <Icon className="w-3.5 h-3.5 text-gold/60 mt-0.5 flex-shrink-0" />
-                  <span className="text-white/40 text-xs">{text}</span>
+                  {href ? (
+                    <a href={href} target="_blank" rel="noreferrer" className="text-white/40 text-xs hover:text-gold transition-colors">{text}</a>
+                  ) : (
+                    <span className="text-white/40 text-xs">{text}</span>
+                  )}
                 </div>
               ))}
             </div>

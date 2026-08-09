@@ -95,7 +95,7 @@ export default function Contact() {
               {[
                 { Icon: Mail,   label: 'Email', value: 'strajec.solutions@gmail.com', href: 'mailto:strajec.solutions@gmail.com' },
                 { Icon: Phone,  label: 'Phone', value: '+63 994 100 6573', href: 'tel:+639941006573' },
-                { Icon: MapPin, label: 'Base',  value: 'Magallanes, Agusan del Norte, Caraga, Philippines', href: null },
+                { Icon: MapPin, label: 'Base',  value: 'Magallanes, Agusan del Norte, Caraga, Philippines', href: 'https://maps.app.goo.gl/a2EJtjCTbthZJZCi6' },
               ].map(({ Icon, label, value, href }) => (
                 <div key={label} className="flex items-start gap-4">
                   <div className="w-9 h-9 rounded-xl bg-off-white border border-[#E5E7EB] flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -115,8 +115,8 @@ export default function Contact() {
               <div className="rounded-2xl overflow-hidden border border-[#E5E7EB] h-44">
                 <iframe
                   title="Strajec map"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31545.034563833446!2d125.50346067431637!3d9.018974599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3301c2db579e0f63%3A0xe5a2ab3fb47b19a3!2sMagallanes%2C%20Agusan%20del%20Norte!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph"
-                  className="w-full h-full grayscale hover:grayscale-0 transition-all duration-500"
+                  src="https://www.google.com/maps?q=9.0235463,125.5175919&z=17&output=embed"
+                  className="w-full h-full"
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
