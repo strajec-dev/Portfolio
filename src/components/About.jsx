@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useReveal } from '../hooks/useReveal';
 
 const values = [
   {
@@ -33,24 +34,7 @@ const stats = [
   { value: '15+',  label: 'Years combined exp.' },
 ];
 
-function useReveal(ref) {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 80);
-            });
-          }
-        });
-      },
-      { threshold: 0.08 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref]);
-}
+
 
 export default function About() {
   const ref = useRef(null);

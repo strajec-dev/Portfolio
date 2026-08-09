@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Github, Linkedin, Mail } from 'lucide-react';
+import { useReveal } from '../hooks/useReveal';
 import christianImg from '../image/christian.jpg';
 import juneImg      from '../image/june.jpg';
 import florenceImg  from '../image/florence.jpg';
@@ -19,7 +20,7 @@ const members = [
   },
   {
     name: 'Christian John Teofilo',
-    role: 'Hardware & IoT Engineer',
+    role: 'Hardware & IoT',
     bio: 'Handles all hardware projects including Arduino programming, circuit design, and IoT automation solutions.',
     photo: christianImg,
     github:   'https://github.com/Choizens/Choizen',
@@ -28,7 +29,7 @@ const members = [
   },
   {
     name: 'Regil Tagalogon',
-    role: 'Full Stack Developer',
+    role: 'Frontend & Backend Support',
     bio: 'Works across both backend and frontend — bridging server logic with dynamic, user-friendly web interfaces.',
     photo: regilImg,
     github:   'https://github.com/Leype83936222',
@@ -55,28 +56,9 @@ const members = [
   },
 ];
 
-function useReveal(ref) {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 80);
-            });
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref]);
-}
-
 export default function Team() {
   const ref = useRef(null);
-  useReveal(ref);
+  useReveal(ref, { threshold: 0.05 });
 
   return (
     <>

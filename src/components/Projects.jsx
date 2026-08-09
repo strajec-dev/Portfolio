@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import o2MackDriveImg   from '../projects/O2MackDrive.png';
@@ -6,6 +6,8 @@ import etoileSauvageImg from "../projects/L'Étoile Sauvage.png";
 import magCareImg       from '../projects/MagCare.png';
 import laUnionImg       from '../projects/launion.png';
 import fbsImg           from '../projects/fbs.png';
+import livoraImg        from '../projects/Livora.png';
+import { useReveal } from '../hooks/useReveal';
 
 const categories = [
   { id: 'all',       name: 'All' },
@@ -60,31 +62,21 @@ const projects = [
     liveUrl: 'https://flight-booking-django.vercel.app/login',
     image: fbsImg,
   },
+  {
+    id: 6,
+    title: 'Livora',
+    category: 'websites',
+    desc: 'Livora — a modern brand experience with clean design and responsive performance.',
+    tech: ['React', 'Vite', 'Tailwind CSS'],
+    liveUrl: 'https://livora-gmtx.vercel.app/',
+    image: livoraImg,
+  },
 ];
-
-function useReveal(ref) {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 80);
-            });
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref]);
-}
 
 export default function Projects() {
   const [active, setActive] = useState('all');
   const ref = useRef(null);
-  useReveal(ref);
+  useReveal(ref, { threshold: 0.05 });
 
   const filtered = active === 'all' ? projects : projects.filter(p => p.category === active);
 

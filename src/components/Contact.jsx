@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Send, CheckCircle2, Facebook, Github, Linkedin, AlertCircle, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { useReveal } from '../hooks/useReveal';
 
 
 const socials = [
@@ -14,24 +15,6 @@ const field = `w-full bg-white border border-[#D1D5DB] rounded-xl px-4 py-3 text
   placeholder:text-mid-grey/60 focus:outline-none focus:border-navy focus:ring-2
   focus:ring-navy/10 transition-all duration-200`;
 
-function useReveal(ref) {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 80);
-            });
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref]);
-}
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', budget: '', desc: '' });
@@ -39,7 +22,7 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [loading,   setLoading]  = useState(false);
   const ref = useRef(null);
-  useReveal(ref);
+  useReveal(ref, { threshold: 0.05 });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,10 +46,16 @@ export default function Contact() {
     if (!validate()) return;
     setLoading(true);
     try {
-      const res = await fetch('https://formsubmit.co/ajax/strajec.solutions@gmail.com', {
+      const accessKey = import.meta.env.VITE_WEB3FORMS_KEY || 'YOUR_ACCESS_KEY_HERE';
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: `New Lead from Portfolio - ${formData.name}`,
+          from_name: 'Strajec Portfolio Contact',
+          ...formData
+        }),
       });
       if (res.ok) {
         setSubmitted(true);

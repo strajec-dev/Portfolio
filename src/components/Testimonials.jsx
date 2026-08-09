@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Star } from 'lucide-react';
+import { useReveal } from '../hooks/useReveal';
 
 const reviews = [
   {
@@ -23,28 +24,9 @@ const reviews = [
   },
 ];
 
-function useReveal(ref) {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 80);
-            });
-          }
-        });
-      },
-      { threshold: 0.08 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref]);
-}
-
 export default function Testimonials() {
   const ref = useRef(null);
-  useReveal(ref);
+  useReveal(ref, { threshold: 0.08 });
 
   return (
       <section id="testimonials" ref={ref} className="section-block bg-snow">

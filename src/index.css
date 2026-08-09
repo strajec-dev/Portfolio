@@ -167,32 +167,34 @@
   /* Reveal animation variants */
   .reveal {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(45px) scale(0.97);
+    filter: blur(8px);
+    will-change: opacity, transform, filter;
+    transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .reveal.reveal-left {
-    transform: translateX(-30px);
+    transform: translateX(-40px) translateY(0) scale(0.97);
   }
   
   .reveal.reveal-right {
-    transform: translateX(30px);
+    transform: translateX(40px) translateY(0) scale(0.97);
   }
   
   .reveal.reveal-scale {
-    transform: scale(0.96) translateY(15px);
+    transform: scale(0.92) translateY(20px);
   }
   
   .reveal.reveal-blur {
-    transform: translateY(15px);
-    filter: blur(8px);
+    transform: translateY(20px);
+    filter: blur(12px);
   }
 
   .reveal.visible {
     opacity: 1;
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
     filter: blur(0);
   }
   

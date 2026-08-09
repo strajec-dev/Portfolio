@@ -5,6 +5,7 @@ import {
   Globe, Code2, MousePointer, Activity, BarChart3,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useReveal } from '../hooks/useReveal';
 
 /* ─── Floating card data ─── */
 const cardLeft = {
@@ -48,22 +49,7 @@ export default function Hero() {
     return () => clearTimeout(t);
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 90);
-            });
-          }
-        });
-      },
-      { threshold: 0.03 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  useReveal(sectionRef, { threshold: 0.03, staggerDelay: 90 });
 
   const fadeIn = (delay = 0) => ({
     opacity:   mounted ? 1 : 0,

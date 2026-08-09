@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MessagesSquare, Compass, Code2, Rocket, HeartHandshake, CheckCircle2 } from 'lucide-react';
+import { useReveal } from '../hooks/useReveal';
 
 const steps = [
   {
@@ -41,28 +42,10 @@ const steps = [
   },
 ];
 
-function useReveal(ref) {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 80);
-            });
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref]);
-}
 
 export default function Process() {
   const ref = useRef(null);
-  useReveal(ref);
+  useReveal(ref, { threshold: 0.05 });
 
   return (
     <>

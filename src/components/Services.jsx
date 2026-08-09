@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   Monitor, ShoppingBag, Code2, CalendarRange,
@@ -6,6 +6,7 @@ import {
   CheckCircle2, Clock, Tag, Cpu
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useReveal } from '../hooks/useReveal';
 
 const services = [
   {
@@ -94,28 +95,9 @@ const services = [
   },
 ];
 
-function useReveal(ref) {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 80);
-            });
-          }
-        });
-      },
-      { threshold: 0.04 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref]);
-}
-
 export default function Services() {
   const ref = useRef(null);
-  useReveal(ref);
+  useReveal(ref, { threshold: 0.04 });
 
   return (
       <section id="services" ref={ref} className="section-block bg-off-white">
