@@ -10,10 +10,14 @@ import Process from './components/Process';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Contact from './components/Contact';
+import Login from './components/Login';
+import AdminDashboard from './components/AdminDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   return (
     <Routes>
+      {/* Public Pages with Layout */}
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -24,6 +28,14 @@ export default function App() {
         <Route path="/testimonials" element={<Testimonials />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
+      </Route>
+
+      {/* Admin Auth Route */}
+      <Route path="/admin/login" element={<Login />} />
+
+      {/* Protected Admin Portal */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Route>
     </Routes>
   );
