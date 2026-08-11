@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   LogOut, LayoutDashboard, Inbox, FolderKanban,
   ChevronRight, ChevronLeft
 } from 'lucide-react';
 
-export default function AdminSidebar({
-  isOpen,
-  setIsOpen,
-  activeTab,
-  setActiveTab,
-  unreadLeadsCount,
-  username,
-  onLogout,
-}) {
+const navItems = [
+  { to: '/admin/dashboard', label: 'Overview',  icon: LayoutDashboard },
+  { to: '/admin/leads',     label: 'Leads',      icon: Inbox,           badge: true },
+  { to: '/admin/projects',  label: 'Projects',   icon: FolderKanban },
+];
+
+export default function AdminSidebar({ isOpen, setIsOpen, unreadLeadsCount, username, onLogout }) {
   return (
     <aside
       className={`bg-white border-r border-[#E5E7EB] fixed inset-y-0 left-0 z-50 transform ${
@@ -49,7 +48,7 @@ export default function AdminSidebar({
                 className="w-9 h-9 bg-navy/5 text-navy font-bold rounded-xl flex items-center justify-center text-base"
                 title="Strajec"
               >
-                S
+                <img src="/Straject-logo.png" alt="Strajec Logo" className="w-6 h-6 object-contain" />
               </div>
               <button
                 onClick={() => setIsOpen(true)}
@@ -64,66 +63,38 @@ export default function AdminSidebar({
 
         {/* Nav Menu */}
         <nav className={`p-4 space-y-2 ${isOpen ? '' : 'flex flex-col items-center'}`}>
-          {/* Overview */}
-          <button
-            onClick={() => setActiveTab('dashboard')}
-            title="Dashboard Overview"
-            className={`flex items-center rounded-xl text-sm font-semibold transition-all duration-150 ${
-              isOpen ? 'w-full gap-3 px-4 py-3' : 'w-12 h-12 justify-center'
-            } ${
-              activeTab === 'dashboard'
-                ? 'bg-navy/5 text-navy'
-                : 'text-[#4B5563] hover:bg-slate-50 hover:text-navy'
-            }`}
-          >
-            <LayoutDashboard className="w-5 h-5 flex-shrink-0" />
-            {isOpen && <span className="whitespace-nowrap">Overview</span>}
-          </button>
-
-          {/* Leads */}
-          <button
-            onClick={() => setActiveTab('leads')}
-            title="Lead Submissions"
-            className={`flex items-center rounded-xl text-sm font-semibold transition-all duration-150 relative ${
-              isOpen ? 'w-full justify-between px-4 py-3' : 'w-12 h-12 justify-center'
-            } ${
-              activeTab === 'leads'
-                ? 'bg-navy/5 text-navy'
-                : 'text-[#4B5563] hover:bg-slate-50 hover:text-navy'
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <Inbox className="w-5 h-5 flex-shrink-0" />
-              {isOpen && <span className="whitespace-nowrap">Leads</span>}
-            </div>
-            {unreadLeadsCount > 0 && (
-              <span
-                className={`bg-navy text-white rounded-full font-bold ${
-                  isOpen
-                    ? 'text-[0.7rem] px-2 py-0.5'
-                    : 'absolute top-1.5 right-1.5 w-4 h-4 text-[0.55rem] flex items-center justify-center'
-                }`}
-              >
-                {unreadLeadsCount}
-              </span>
-            )}
-          </button>
-
-          {/* Projects */}
-          <button
-            onClick={() => setActiveTab('projects')}
-            title="Manage Projects"
-            className={`flex items-center rounded-xl text-sm font-semibold transition-all duration-150 ${
-              isOpen ? 'w-full gap-3 px-4 py-3' : 'w-12 h-12 justify-center'
-            } ${
-              activeTab === 'projects'
-                ? 'bg-navy/5 text-navy'
-                : 'text-[#4B5563] hover:bg-slate-50 hover:text-navy'
-            }`}
-          >
-            <FolderKanban className="w-5 h-5 flex-shrink-0" />
-            {isOpen && <span className="whitespace-nowrap">Projects</span>}
-          </button>
+          {navItems.map(({ to, label, icon: Icon, badge }) => (
+            <NavLink
+              key={to}
+              to={to}
+              title={label}
+              className={({ isActive }) =>
+                `flex items-center rounded-xl text-sm font-semibold transition-all duration-150 relative ${
+                  isOpen ? 'w-full px-4 py-3' : 'w-12 h-12 justify-center'
+                } ${
+                  isActive
+                    ? 'bg-navy/5 text-navy'
+                    : 'text-[#4B5563] hover:bg-slate-50 hover:text-navy'
+                }`
+              }
+            >
+              <div className={`flex items-center ${isOpen ? 'gap-3 flex-1' : 'justify-center'}`}>
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                {isOpen && <span className="whitespace-nowrap">{label}</span>}
+              </div>
+              {badge && unreadLeadsCount > 0 && (
+                <span
+                  className={`bg-navy text-white rounded-full font-bold ${
+                    isOpen
+                      ? 'text-[0.7rem] px-2 py-0.5'
+                      : 'absolute top-1.5 right-1.5 w-4 h-4 text-[0.55rem] flex items-center justify-center'
+                  }`}
+                >
+                  {unreadLeadsCount}
+                </span>
+              )}
+            </NavLink>
+          ))}
         </nav>
       </div>
 
@@ -160,5 +131,3 @@ export default function AdminSidebar({
     </aside>
   );
 }
-
-

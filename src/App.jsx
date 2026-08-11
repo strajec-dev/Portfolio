@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import MagneticCursor from './components/layout/CursorAndEffects';
 import Home from './components/pages/Home';
@@ -13,7 +13,10 @@ import FAQ from './components/pages/FAQ';
 import Contact from './components/pages/Contact';
 import NotFound from './components/pages/NotFound';
 import Login from './components/admin/Login';
+import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/AdminDashboard';
+import LeadsTab from './components/admin/LeadsTab';
+import ProjectsTab from './components/admin/ProjectsTab';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 
 export default function App() {
@@ -41,7 +44,12 @@ export default function App() {
 
         {/* Protected Admin Portal */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/leads" element={<LeadsTab />} />
+            <Route path="/admin/projects" element={<ProjectsTab />} />
+          </Route>
         </Route>
 
         {/* Catch-all — rendered outside Layout (no header/footer) */}
