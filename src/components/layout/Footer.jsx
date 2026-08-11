@@ -94,6 +94,7 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Navigation col 2 */}
           <div>
             <p className="font-mono text-label font-medium text-white/25 tracking-[0.14em] uppercase mb-5 opacity-0 pointer-events-none select-none">_</p>
             <ul className="space-y-3">

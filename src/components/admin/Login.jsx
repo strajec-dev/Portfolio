@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Lock, User, AlertCircle, ArrowRight } from 'lucide-react';
-import { setAuth, isAuthenticated } from '../utils/auth';
+import { setAuth, isAuthenticated } from '../../utils/auth';
 
 export default function Login() {
   const [username, setUsername] = useState('');

@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ExternalLink, ArrowRight } from 'lucide-react';
-import o2MackDriveImg   from '../projects/O2MackDrive.png';
-import etoileSauvageImg from "../projects/L'Étoile Sauvage.png";
-import magCareImg       from '../projects/MagCare.png';
-import laUnionImg       from '../projects/launion.png';
-import fbsImg           from '../projects/fbs.png';
-import livoraImg        from '../projects/Livora.png';
-import { useReveal } from '../hooks/useReveal';
+import o2MackDriveImg   from '../../projects/O2MackDrive.png';
+import etoileSauvageImg from "../../projects/L'Étoile Sauvage.png";
+import magCareImg       from '../../projects/MagCare.png';
+import laUnionImg       from '../../projects/launion.png';
+import fbsImg           from '../../projects/fbs.png';
+import livoraImg        from '../../projects/Livora.png';
+import { useReveal } from '../../hooks/useReveal';
 
 const categories = [
   { id: 'all',       name: 'All' },

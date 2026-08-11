@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Plus, Minus } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useReveal } from '../hooks/useReveal';
+import { useReveal } from '../../hooks/useReveal';
 
 const faqs = [
   {
@@ -31,14 +31,12 @@ const faqs = [
   },
 ];
 
-
 export default function FAQ() {
   const [open, setOpen] = useState(null);
   const ref = useRef(null);
   useReveal(ref, { threshold: 0.05 });
 
   return (
-
       <section id="faq" ref={ref} className="section-block bg-off-white">
         <div className="container-wide">
 

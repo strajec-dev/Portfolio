@@ -6,7 +6,7 @@ import {
   CheckCircle2, Clock, Tag, Cpu
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useReveal } from '../hooks/useReveal';
+import { useReveal } from '../../hooks/useReveal';
 
 const services = [
   {

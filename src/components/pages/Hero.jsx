@@ -5,7 +5,7 @@ import {
   Globe, Code2, MousePointer, Activity, BarChart3,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useReveal } from '../hooks/useReveal';
+import { useReveal } from '../../hooks/useReveal';
 
 /* ─── Floating card data ─── */
 const cardLeft = {

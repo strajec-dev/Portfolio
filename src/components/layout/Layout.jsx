@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import MagneticCursor from './CursorAndEffects';
 import { MessageSquare, X } from 'lucide-react';
+
 
 export default function Layout() {
   const [showBadge, setShowBadge] = useState(true);
@@ -29,8 +29,8 @@ export default function Layout() {
 
   return (
     <div className="relative min-h-screen bg-snow font-sans text-ink overflow-x-hidden">
-      <MagneticCursor />
       <Header />
+
       <main className="w-full">
         <Outlet />
       </main>

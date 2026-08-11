@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MessagesSquare, Compass, Code2, Rocket, HeartHandshake, CheckCircle2 } from 'lucide-react';
-import { useReveal } from '../hooks/useReveal';
+import { useReveal } from '../../hooks/useReveal';
 
 const steps = [
   {
@@ -41,7 +41,6 @@ const steps = [
     deliverables: ['Uptime monitoring setup', 'Monthly security updates', 'Priority technical support'],
   },
 ];
-
 
 export default function Process() {
   const ref = useRef(null);

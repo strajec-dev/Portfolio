@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Check, ArrowRight } from 'lucide-react';
-import { useReveal } from '../hooks/useReveal';
+import { useReveal } from '../../hooks/useReveal';
 
 const tiers = [
   {
@@ -38,7 +38,6 @@ const tiers = [
     featured: false,
   },
 ];
-
 
 export default function Pricing() {
   const ref = useRef(null);
@@ -113,11 +112,7 @@ export default function Pricing() {
                 <Link
                   to="/contact"
                   data-cursor="quote"
-                  className={`mt-auto block w-full text-center py-3 rounded-xl text-sm font-bold transition-all duration-200 ${
-                    tier.featured
-                      ? 'bg-gold text-navy hover:bg-gold-light'
-                      : 'border border-navy/20 text-navy hover:bg-navy hover:text-white'
-                  }`}
+                  className="mt-auto block w-full text-center py-3 rounded-xl text-sm font-bold transition-all duration-200"
                 >
                   {tier.cta} →
                 </Link>

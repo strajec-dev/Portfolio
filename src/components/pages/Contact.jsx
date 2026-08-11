@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Send, CheckCircle2, Facebook, Github, Linkedin, AlertCircle, Instagram, Mail, Phone, MapPin } from 'lucide-react';
-import { useReveal } from '../hooks/useReveal';
-
+import { useReveal } from '../../hooks/useReveal';
 
 const socials = [
   { Icon: Facebook,  href: 'https://www.facebook.com/profile.php?id=61592866436078', label: 'Facebook' },
@@ -14,7 +13,6 @@ const socials = [
 const field = `w-full bg-white border border-[#D1D5DB] rounded-xl px-4 py-3 text-navy text-sm
   placeholder:text-mid-grey/60 focus:outline-none focus:border-navy focus:ring-2
   focus:ring-navy/10 transition-all duration-200`;
-
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', budget: '', desc: '' });
@@ -46,8 +44,18 @@ export default function Contact() {
     if (!validate()) return;
     setLoading(true);
     try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
       const accessKey = import.meta.env.VITE_WEB3FORMS_KEY || 'YOUR_ACCESS_KEY_HERE';
-      const res = await fetch('https://api.web3forms.com/submit', {
+
+      // Save to the Django backend so the submission shows up in the admin dashboard
+      const backendRes = await fetch(`${backendUrl}/api/contacts/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      // Email notification via Web3Forms (fire-and-forget, non-blocking)
+      fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
@@ -56,8 +64,9 @@ export default function Contact() {
           from_name: 'Strajec Portfolio Contact',
           ...formData
         }),
-      });
-      if (res.ok) {
+      }).catch(() => {});
+
+      if (backendRes.ok) {
         setSubmitted(true);
         setFormData({ name: '', email: '', phone: '', budget: '', desc: '' });
         setTimeout(() => setSubmitted(false), 5000);
@@ -222,3 +231,4 @@ export default function Contact() {
     </>
   );
 }
+

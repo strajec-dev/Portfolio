@@ -30,6 +30,7 @@ function CursorImpl() {
 
   const [particles, setParticles] = useState([]);
   const [hidden, setHidden]       = useState(false);
+  const [ready, setReady]         = useState(false);
 
   const stateRef = useRef({
     mode: 'default',
@@ -108,6 +109,8 @@ function CursorImpl() {
     const onMove = (e) => {
       const { clientX: x, clientY: y } = e;
       mousePos.current = { x, y };
+      setReady(true);
+      setHidden(false);
 
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${x - 3}px,${y - 3}px,0)`;
@@ -185,7 +188,7 @@ function CursorImpl() {
     };
   }, []);
 
-  if (hidden) return null;
+  if (hidden || !ready) return null;
 
   return (
     <>

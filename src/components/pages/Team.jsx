@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Github, Linkedin, Mail } from 'lucide-react';
-import { useReveal } from '../hooks/useReveal';
-import christianImg from '../image/christian.jpg';
-import juneImg      from '../image/june.jpg';
-import florenceImg  from '../image/florence.jpg';
-import regilImg     from '../image/regil.jpg';
-import simanImg     from '../image/siman.jpg';
+import { useReveal } from '../../hooks/useReveal';
+import christianImg from '../../image/christian.jpg';
+import juneImg      from '../../image/june.jpg';
+import florenceImg  from '../../image/florence.jpg';
+import regilImg     from '../../image/regil.jpg';
+import simanImg     from '../../image/siman.jpg';
 
 const members = [
   {

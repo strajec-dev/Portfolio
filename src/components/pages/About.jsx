@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useReveal } from '../hooks/useReveal';
+import { useReveal } from '../../hooks/useReveal';
 
 const values = [
   {
@@ -33,8 +33,6 @@ const stats = [
   { value: 'A+',   label: 'Avg. PageSpeed score' },
   { value: '15+',  label: 'Years combined exp.' },
 ];
-
-
 
 export default function About() {
   const ref = useRef(null);

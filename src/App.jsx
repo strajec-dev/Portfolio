@@ -1,42 +1,52 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Home from './components/Home';
-import About from './components/About';
-import Services from './components/Services';
-import Team from './components/Team';
-import Projects from './components/Projects';
-import Process from './components/Process';
-import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
-import Contact from './components/Contact';
-import Login from './components/Login';
-import AdminDashboard from './components/AdminDashboard';
-import ProtectedRoute from './components/ProtectedRoute';
+import Layout from './components/layout/Layout';
+import MagneticCursor from './components/layout/CursorAndEffects';
+import Home from './components/pages/Home';
+import About from './components/pages/About';
+import Services from './components/pages/Services';
+import Team from './components/pages/Team';
+import Projects from './components/pages/Projects';
+import Process from './components/pages/Process';
+import Testimonials from './components/pages/Testimonials';
+import FAQ from './components/pages/FAQ';
+import Contact from './components/pages/Contact';
+import NotFound from './components/pages/NotFound';
+import Login from './components/admin/Login';
+import AdminDashboard from './components/admin/AdminDashboard';
+import ProtectedRoute from './components/admin/ProtectedRoute';
 
 export default function App() {
   return (
-    <Routes>
-      {/* Public Pages with Layout */}
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/team" element={<Team />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/process" element={<Process />} />
-        <Route path="/testimonials" element={<Testimonials />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/contact" element={<Contact />} />
-      </Route>
+    <>
+      {/* Global cursor — rendered on all pages */}
+      <MagneticCursor />
 
-      {/* Admin Auth Route */}
-      <Route path="/admin/login" element={<Login />} />
+      <Routes>
+        {/* Public Pages with Layout */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/process" element={<Process />} />
+          <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/contact" element={<Contact />} />
+        </Route>
 
-      {/* Protected Admin Portal */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-      </Route>
-    </Routes>
+        {/* Admin Auth Route */}
+        <Route path="/admin/login" element={<Login />} />
+
+        {/* Protected Admin Portal */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Route>
+
+        {/* Catch-all — rendered outside Layout (no header/footer) */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 }

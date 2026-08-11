@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Star } from 'lucide-react';
-import { useReveal } from '../hooks/useReveal';
+import { useReveal } from '../../hooks/useReveal';
 
 const reviews = [
   {
