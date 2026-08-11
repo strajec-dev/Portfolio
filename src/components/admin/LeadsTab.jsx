@@ -6,7 +6,7 @@ import {
   Eye, EyeOff, Search, Download, X, MessageSquareReply,
   Send, AlertCircle, CheckCircle2,
 } from 'lucide-react';
-import { STATUS_OPTIONS, getStatus } from './adminConstants';
+import { STATUS_OPTIONS, SELECTABLE_STATUS_OPTIONS, getStatus } from './adminConstants';
 
 export default function LeadsTab() {
   const { token, backendUrl, onUnreadChange } = useOutletContext();
@@ -133,6 +133,14 @@ export default function LeadsTab() {
         setSelectedLead((prev) => prev?.id === id ? { ...prev, status: newStatus } : prev);
       }
     } catch (err) { console.error(err); }
+  };
+
+  const nextStatus = (current) =>
+    current === 'in_progress' ? 'closed' : 'in_progress';
+
+  const cycleStatus = (id, current) => {
+    const next = nextStatus(current);
+    if (next) updateStatus(id, next);
   };
 
   const deleteLead = async (id) => {
@@ -387,16 +395,19 @@ export default function LeadsTab() {
                     </div>
 
                     <div className="flex md:flex-col gap-2 pt-4 md:pt-0 border-t md:border-t-0 border-[#F3F4F6]">
-                      <select
-                        value={lead.status}
-                        onClick={(e) => e.stopPropagation()}
-                        onChange={(e) => updateStatus(lead.id, e.target.value)}
-                        className="bg-white border border-[#D1D5DB] rounded-xl px-2.5 py-2 text-xs font-bold text-navy focus:outline-none focus:border-navy"
+                      <button
+                        onClick={(e) => { e.stopPropagation(); cycleStatus(lead.id, lead.status); }}
+                        disabled={lead.status === 'closed'}
+                        className="bg-white border border-[#D1D5DB] hover:border-navy hover:text-navy rounded-xl px-3 py-2 text-xs font-bold text-navy focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        title="Click to move to In Progress, click again to Close"
                       >
-                        {STATUS_OPTIONS.map((opt) => (
-                          <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                      </select>
+                        {lead.status === 'closed'
+                          ? `Closed ✓`
+                          : lead.status === 'in_progress'
+                            ? 'In Progress → Close'
+                            : 'Mark In Progress'
+                        }
+                      </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); toggleReadStatus(lead.id, lead.is_read); }}
                         className="p-2.5 rounded-xl border flex items-center justify-center transition-colors w-10 h-10 bg-white border-[#E5E7EB] hover:bg-slate-50 text-[#6B7280] hover:text-navy"
@@ -452,7 +463,10 @@ export default function LeadsTab() {
                     onChange={(e) => updateStatus(selectedLead.id, e.target.value)}
                     className="bg-white border border-[#D1D5DB] rounded-xl px-3 py-2 text-xs font-bold text-navy focus:outline-none focus:border-navy"
                   >
-                    {STATUS_OPTIONS.map((opt) => (
+                    {!SELECTABLE_STATUS_OPTIONS.some((o) => o.value === selectedLead.status) && (
+                      <option value={selectedLead.status}>{getStatus(selectedLead.status).label} (auto)</option>
+                    )}
+                    {SELECTABLE_STATUS_OPTIONS.map((opt) => (
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
                   </select>
