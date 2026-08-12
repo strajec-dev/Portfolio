@@ -1,5 +1,5 @@
 import React from 'react';
-import { getStatus, STATUS_OPTIONS } from './adminConstants';
+import { STATUS_OPTIONS } from './adminConstants';
 
 export default function OverviewTab({ leads, projects, loadingLeads, setActiveTab }) {
   const unreadLeadsCount = leads.filter((l) => !l.is_read).length;
@@ -50,12 +50,8 @@ export default function OverviewTab({ leads, projects, loadingLeads, setActiveTa
                   <p className="text-xs text-[#6B7280] mt-0.5 truncate">{lead.email} · Budget: {lead.budget}</p>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <span className={`inline-flex items-center gap-1.5 text-[0.7rem] font-bold px-2.5 py-1 rounded-full ${getStatus(lead.status).chip}`}>
-                    <span className={`w-1.5 h-1.5 rounded-full ${getStatus(lead.status).dot}`} />
-                    {getStatus(lead.status).label}
-                  </span>
-                  <span className={`text-[0.7rem] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${lead.is_read ? 'bg-slate-100 text-[#4B5563]' : 'bg-navy/10 text-navy'}`}>
-                    {lead.is_read ? 'Read' : 'New'}
+                  <span className={`text-[0.7rem] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${!lead.is_read ? 'bg-navy/10 text-navy' : 'bg-gray-100 text-gray-400'}`}>
+                    {lead.is_read ? 'Read' : 'Unread'}
                   </span>
                 </div>
               </div>

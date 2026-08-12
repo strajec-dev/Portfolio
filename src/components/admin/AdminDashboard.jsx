@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useOutletContext } from 'react-router-dom';
-import { getStatus } from './adminConstants';
 import { Eye, Users, TrendingUp } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -9,6 +8,7 @@ export default function AdminDashboard() {
   const [leads, setLeads]             = useState([]);
   const [projects, setProjects]       = useState([]);
   const [analytics, setAnalytics]     = useState({ realtimeUsers: 0, totalViews: 0, totalUsers: 0, chartData: [] });
+  const [period, setPeriod]           = useState('monthly'); // 'weekly', 'monthly', 'yearly'
   const [loading, setLoading]         = useState(true);
   const [loadingAnalytics, setLoadingAnalytics] = useState(true);
   const [error, setError]             = useState('');
@@ -16,13 +16,13 @@ export default function AdminDashboard() {
   useEffect(() => {
     const doFetch = () => {
       fetchAll();
-      fetchAnalytics();
+      fetchAnalytics(period);
     };
     window.addEventListener('admin-refresh', doFetch);
     fetchAll();
-    fetchAnalytics();
+    fetchAnalytics(period);
     return () => window.removeEventListener('admin-refresh', doFetch);
-  }, []);
+  }, [period]);
 
   const fetchAll = async () => {
     setLoading(true);
@@ -51,10 +51,10 @@ export default function AdminDashboard() {
     }
   };
 
-  const fetchAnalytics = async () => {
+  const fetchAnalytics = async (selectedPeriod) => {
     setLoadingAnalytics(true);
     try {
-      const res = await fetch(`${backendUrl}/api/analytics/`, {
+      const res = await fetch(`${backendUrl}/api/analytics/?period=${selectedPeriod}`, {
         headers: { 'Authorization': `Token ${token}` },
       });
       if (res.ok) {
@@ -72,19 +72,129 @@ export default function AdminDashboard() {
   const totalLeads    = leads.length;
   const totalProjects = projects.length;
 
-  // Custom SVG Chart rendering helpers
-  const chartPoints = analytics.chartData || [];
-  const maxVal = Math.max(...chartPoints.map(p => Math.max(p.Visitors, p.Pageviews, 10)), 10);
-  const width = 600;
-  const height = 180;
-  const padding = 30;
+  // Dynamically load Chart.js and render the line chart
+  const canvasRef = React.useRef(null);
+  const chartInstanceRef = React.useRef(null);
+  const [chartScriptLoaded, setChartScriptLoaded] = useState(false);
 
-  const pointsX = (index) => padding + (index / Math.max(chartPoints.length - 1, 1)) * (width - padding * 2);
-  const pointsY = (val) => height - padding - (val / maxVal) * (height - padding * 2);
+  useEffect(() => {
+    if (window.Chart) {
+      setChartScriptLoaded(true);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+    script.async = true;
+    script.onload = () => setChartScriptLoaded(true);
+    document.head.appendChild(script);
+    return () => {
+      // Keep script loaded globally for tab switches
+    };
+  }, []);
 
-  // Generate SVG path points
-  const visitorsPath = chartPoints.map((p, idx) => `${pointsX(idx)},${pointsY(p.Visitors)}`).join(' L ');
-  const pageviewsPath = chartPoints.map((p, idx) => `${pointsX(idx)},${pointsY(p.Pageviews)}`).join(' L ');
+  useEffect(() => {
+    if (!chartScriptLoaded || !canvasRef.current || !analytics.chartData) return;
+
+    // Destroy existing chart instance before recreation
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
+    const labels = analytics.chartData.map(p => p.date);
+    const pageviews = analytics.chartData.map(p => p.Pageviews);
+    const visitors = analytics.chartData.map(p => p.Visitors);
+
+    const ctx = canvasRef.current.getContext('2d');
+    
+    // Create subtle gradient fills
+    const pageviewGrad = ctx.createLinearGradient(0, 0, 0, 200);
+    pageviewGrad.addColorStop(0, 'rgba(1, 53, 130, 0.15)');
+    pageviewGrad.addColorStop(1, 'rgba(1, 53, 130, 0.0)');
+
+    const visitorGrad = ctx.createLinearGradient(0, 0, 0, 200);
+    visitorGrad.addColorStop(0, 'rgba(244, 207, 49, 0.15)');
+    visitorGrad.addColorStop(1, 'rgba(244, 207, 49, 0.0)');
+
+    chartInstanceRef.current = new window.Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Pageviews',
+            data: pageviews,
+            borderColor: '#013582',
+            backgroundColor: pageviewGrad,
+            borderWidth: 2.5,
+            fill: true,
+            tension: 0.35,
+            pointRadius: period === 'yearly' ? 3 : 1.5,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#013582',
+          },
+          {
+            label: 'Visitors',
+            data: visitors,
+            borderColor: '#F4CF31',
+            backgroundColor: visitorGrad,
+            borderWidth: 2.5,
+            fill: true,
+            tension: 0.35,
+            pointRadius: period === 'yearly' ? 3 : 1.5,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#F4CF31',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false // We use our custom legend to match the design aesthetics
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            padding: 10,
+            cornerRadius: 12,
+            backgroundColor: '#0F172A',
+            titleColor: '#F8FAFC',
+            bodyColor: '#E2E8F0',
+            borderColor: '#334155',
+            borderWidth: 1,
+            titleFont: { weight: 'bold', size: 11 },
+            bodyFont: { size: 11 }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: {
+              color: '#9CA3AF',
+              font: { size: 9, family: 'monospace' },
+              maxTicksLimit: period === 'weekly' ? 7 : 12
+            }
+          },
+          y: {
+            grid: { color: '#F3F4F6' },
+            border: { dash: [4, 4] },
+            ticks: {
+              color: '#9CA3AF',
+              font: { size: 9, family: 'monospace' },
+              precision: 0
+            }
+          }
+        }
+      }
+    });
+
+    return () => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy();
+      }
+    };
+  }, [chartScriptLoaded, analytics.chartData, period]);
 
   return (
     <>
@@ -134,76 +244,59 @@ export default function AdminDashboard() {
 
         {/* Analytics Section with SVG Custom Chart */}
         <div className="bg-white border border-[#E5E7EB] rounded-2xl p-6 shadow-sm space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h3 className="font-bold text-lg text-navy flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-gold" />
                 Traffic & Audience overview
               </h3>
-              <p className="text-xs text-[#6B7280]">Daily page views and unique visitors (Last 30 Days)</p>
+              <p className="text-xs text-[#6B7280]">
+                {period === 'weekly' && 'Daily page views and unique visitors (Last 7 Days)'}
+                {period === 'monthly' && 'Daily page views and unique visitors (Last 30 Days)'}
+                {period === 'yearly' && 'Monthly page views and unique visitors (Last 12 Months)'}
+              </p>
             </div>
-            <div className="flex items-center gap-4 text-xs">
-              <div className="flex items-center gap-1.5 font-semibold text-navy">
-                <span className="w-3 h-1.5 bg-[#013582] rounded" /> Pageviews
+            
+            {/* Filter segments */}
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="bg-[#F3F4F6] p-0.5 rounded-xl inline-flex">
+                {[
+                  { value: 'weekly', label: 'Weekly' },
+                  { value: 'monthly', label: 'Monthly' },
+                  { value: 'yearly', label: 'Yearly' }
+                ].map((opt) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => setPeriod(opt.value)}
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                      period === opt.value
+                        ? 'bg-white text-navy shadow-sm'
+                        : 'text-[#6B7280] hover:text-navy'
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
               </div>
-              <div className="flex items-center gap-1.5 font-semibold text-gold">
-                <span className="w-3 h-1.5 bg-[#F4CF31] rounded" /> Visitors
+
+              <div className="flex items-center gap-4 text-xs">
+                <div className="flex items-center gap-1.5 font-semibold text-navy">
+                  <span className="w-3 h-1.5 bg-[#013582] rounded" /> Pageviews
+                </div>
+                <div className="flex items-center gap-1.5 font-semibold text-gold">
+                  <span className="w-3 h-1.5 bg-[#F4CF31] rounded" /> Visitors
+                </div>
               </div>
             </div>
           </div>
 
           {loadingAnalytics ? (
-            <div className="h-[200px] w-full flex items-center justify-center bg-slate-50/50 rounded-xl">
+            <div className="h-[220px] w-full flex items-center justify-center bg-slate-50/50 rounded-xl">
               <div className="w-8 h-8 border-4 border-navy border-t-transparent rounded-full animate-spin" />
             </div>
           ) : (
-            <div className="relative overflow-x-auto">
-              <div className="min-w-[600px] h-[190px]">
-                <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full overflow-visible select-none">
-                  {/* Grid Lines */}
-                  {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => {
-                    const y = height - padding - ratio * (height - padding * 2);
-                    return (
-                      <g key={i}>
-                        <line x1={padding} y1={y} x2={width - padding} y2={y} stroke="#F3F4F6" strokeWidth={1} />
-                        <text x={padding - 8} y={y + 3} textAnchor="end" className="text-[9px] fill-[#9CA3AF] font-mono">
-                          {Math.round(ratio * maxVal)}
-                        </text>
-                      </g>
-                    );
-                  })}
-
-                  {/* Dates X axis */}
-                  {chartPoints.map((p, idx) => {
-                    // Render date labels for start, mid-point, and end to keep it clean
-                    const showLabel = idx === 0 || idx === Math.round(chartPoints.length / 2) || idx === chartPoints.length - 1;
-                    if (!showLabel) return null;
-                    return (
-                      <text key={idx} x={pointsX(idx)} y={height - 8} textAnchor="middle" className="text-[10px] fill-[#9CA3AF] font-mono">
-                        {p.date}
-                      </text>
-                    );
-                  })}
-
-                  {/* Lines */}
-                  {chartPoints.length > 1 && (
-                    <>
-                      {/* Pageviews Line */}
-                      <path d={`M ${pageviewsPath}`} fill="none" stroke="#013582" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
-                      {/* Visitors Line */}
-                      <path d={`M ${visitorsPath}`} fill="none" stroke="#F4CF31" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
-                    </>
-                  )}
-
-                  {/* Data Circles (Latest Point Only for hover emphasis) */}
-                  {chartPoints.length > 0 && (
-                    <g>
-                      <circle cx={pointsX(chartPoints.length - 1)} cy={pointsY(chartPoints[chartPoints.length - 1].Pageviews)} r={4} fill="#013582" stroke="#FFF" strokeWidth={1.5} />
-                      <circle cx={pointsX(chartPoints.length - 1)} cy={pointsY(chartPoints[chartPoints.length - 1].Visitors)} r={4} fill="#F4CF31" stroke="#FFF" strokeWidth={1.5} />
-                    </g>
-                  )}
-                </svg>
-              </div>
+            <div className="relative w-full h-[220px]">
+              <canvas ref={canvasRef} />
             </div>
           )}
         </div>
@@ -232,12 +325,8 @@ export default function AdminDashboard() {
                     <p className="text-xs text-[#6B7280] mt-0.5 truncate">{lead.email} · Budget: {lead.budget}</p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className={`inline-flex items-center gap-1.5 text-[0.7rem] font-bold px-2.5 py-1 rounded-full ${getStatus(lead.status).chip}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${getStatus(lead.status).dot}`} />
-                      {getStatus(lead.status).label}
-                    </span>
-                    <span className={`text-[0.7rem] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${lead.is_read ? 'bg-slate-100 text-[#4B5563]' : 'bg-navy/10 text-navy'}`}>
-                      {lead.is_read ? 'Read' : 'New'}
+                    <span className={`text-[0.7rem] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${lead.is_read ? 'bg-gray-100 text-gray-400' : 'bg-navy/10 text-navy'}`}>
+                      {lead.is_read ? 'Read' : 'Unread'}
                     </span>
                   </div>
                 </div>

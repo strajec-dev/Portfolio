@@ -6,7 +6,7 @@ import {
   Eye, EyeOff, Search, Download, X, MessageSquareReply,
   Send, AlertCircle, CheckCircle2,
 } from 'lucide-react';
-import { STATUS_OPTIONS, SELECTABLE_STATUS_OPTIONS, getStatus } from './adminConstants';
+import { STATUS_OPTIONS, getStatus } from './adminConstants';
 
 export default function LeadsTab() {
   const { token, backendUrl, onUnreadChange } = useOutletContext();
@@ -362,9 +362,6 @@ export default function LeadsTab() {
                         <span className="bg-navy/5 border border-navy/10 text-navy font-semibold text-xs px-2.5 py-1 rounded-full">
                           Budget: {lead.budget}
                         </span>
-                        {!lead.is_read && lead.status === 'new' && (
-                          <span className="bg-[#10B981]/15 text-[#10B981] font-bold text-[0.7rem] uppercase px-2.5 py-1 rounded-full">New</span>
-                        )}
                       </div>
 
                       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[#4B5563] text-sm">
@@ -398,7 +395,13 @@ export default function LeadsTab() {
                       <button
                         onClick={(e) => { e.stopPropagation(); cycleStatus(lead.id, lead.status); }}
                         disabled={lead.status === 'closed'}
-                        className="bg-white border border-[#D1D5DB] hover:border-navy hover:text-navy rounded-xl px-3 py-2 text-xs font-bold text-navy focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className={`rounded-xl px-5 py-2.5 text-sm font-bold focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-all ${
+                          lead.status === 'closed'
+                            ? 'bg-slate-100 border border-[#D1D5DB] text-[#9CA3AF] cursor-not-allowed'
+                            : lead.status === 'in_progress'
+                              ? 'bg-white border border-amber-400 text-amber-600 hover:bg-amber-50'
+                              : 'bg-amber-500 hover:bg-amber-600 text-white border border-amber-500 shadow-md shadow-amber-200'
+                        }`}
                         title="Click to move to In Progress, click again to Close"
                       >
                         {lead.status === 'closed'
@@ -456,30 +459,31 @@ export default function LeadsTab() {
               </div>
 
               <div className="p-6 space-y-6">
-                <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                   <label className="text-xs font-semibold text-[#6B7280]">Status</label>
-                  <select
-                    value={selectedLead.status}
-                    onChange={(e) => updateStatus(selectedLead.id, e.target.value)}
-                    className="bg-white border border-[#D1D5DB] rounded-xl px-3 py-2 text-xs font-bold text-navy focus:outline-none focus:border-navy"
-                  >
-                    {!SELECTABLE_STATUS_OPTIONS.some((o) => o.value === selectedLead.status) && (
-                      <option value={selectedLead.status}>{getStatus(selectedLead.status).label} (auto)</option>
-                    )}
-                    {SELECTABLE_STATUS_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
+                  {/* Current status display */}
                   <span className={`inline-flex items-center gap-1.5 text-[0.7rem] font-bold px-2.5 py-1 rounded-full ${getStatus(selectedLead.status).chip}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${getStatus(selectedLead.status).dot}`} />
                     {getStatus(selectedLead.status).label}
                   </span>
+                  {/* Selectable status buttons */}
+                  {STATUS_OPTIONS.filter((o) => o.value !== 'new').map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => updateStatus(selectedLead.id, opt.value)}
+                      className={`inline-flex items-center gap-1.5 text-[0.7rem] font-bold px-2.5 py-1 rounded-full border transition-all ${
+                        selectedLead.status === opt.value
+                          ? `${opt.chip} border-transparent`
+                          : 'bg-white border-[#D1D5DB] text-[#9CA3AF] hover:border-navy hover:text-navy'
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${selectedLead.status === opt.value ? opt.dot : 'bg-[#D1D5DB]'}`} />
+                      {opt.label}
+                    </button>
+                  ))}
                   <span className="bg-navy/5 border border-navy/10 text-navy font-semibold text-xs px-2.5 py-1 rounded-full">
                     Budget: {selectedLead.budget}
                   </span>
-                  {!selectedLead.is_read && selectedLead.status === 'new' && (
-                    <span className="bg-[#10B981]/15 text-[#10B981] font-bold text-[0.7rem] uppercase px-2.5 py-1 rounded-full">New</span>
-                  )}
                 </div>
 
                 <div>
